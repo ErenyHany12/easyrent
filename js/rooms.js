@@ -20,7 +20,7 @@ window.submitFeedback = async function (event) {
 
   const comment = document.getElementById("commentInput").value.trim();
   const unitId = getCurrentRoomId();
-  const studentId = 1; // Placeholder. Replace with actual student ID logic.
+  const studentId = 1; // You should replace this with actual user ID from your auth system
 
   if (!comment) {
     alert("Please write a review.");
@@ -49,52 +49,158 @@ window.submitFeedback = async function (event) {
     document.getElementById("commentInput").value = "";
     selectedRating = 1;
     updateStarSelection(selectedRating);
+
+    // Refresh the feedback list
+    await displayFeedback(unitId);
   } catch (error) {
     console.error("Failed to submit feedback:", error);
     alert("Something went wrong. Please try again.");
   }
 };
 
-window.viewRoomDetails = function (roomId) {
+// New function to fetch and display feedback
+async function displayFeedback(roomId) {
+  try {
+    const feedbackResponse = await _get(`/api/Feedback/GetByUnitId/${roomId}`);
+    const feedbackList = feedbackResponse?.$values || [];
+
+    const feedbackContainer = document.createElement("div");
+    feedbackContainer.className = "feedback-container";
+    feedbackContainer.innerHTML = `
+      <h3>Reviews (${feedbackList.length})</h3>
+      <div class="feedback-list">
+        ${
+          feedbackList.length > 0
+            ? feedbackList
+                .map(
+                  (feedback) => `
+            <div class="feedback-item">
+              <div class="feedback-header">
+                <span class="feedback-user">${
+                  feedback.studentName || "Anonymous"
+                }</span>
+                <span class="feedback-rating ${feedback.rating.toLowerCase()}">
+                  ${getRatingStars(feedback.rating)}
+                </span>
+              </div>
+              <p class="feedback-comment">"${feedback.comment}"</p>
+              <div class="feedback-date">${formatDate(feedback.createdAt)}</div>
+            </div>
+          `
+                )
+                .join("")
+            : '<p class="no-feedback">No reviews yet. Be the first to review!</p>'
+        }
+      </div>
+    `;
+
+    // Add feedback form
+    feedbackContainer.innerHTML += `
+      <div class="feedback-form">
+        <h4>Add Your Review</h4>
+        <form onsubmit="submitFeedback(event)">
+          <div class="stars">
+            ${[1, 2, 3, 4, 5]
+              .map(
+                (star) => `
+              <span class="star ${selectedRating >= star ? "active" : ""}" 
+                    data-value="${star}" 
+                    onclick="selectedRating = ${star}; updateStarSelection(${star})">
+                ★
+              </span>
+            `
+              )
+              .join("")}
+          </div>
+          <textarea id="commentInput" placeholder="Share your experience..." required></textarea>
+          <button type="submit" class="btn-submit">Submit Review</button>
+        </form>
+      </div>
+    `;
+
+    // Update or add feedback section
+    const modalContent = document.querySelector(".modal-content");
+    const existingFeedback = modalContent.querySelector(".feedback-container");
+    if (existingFeedback) {
+      modalContent.replaceChild(feedbackContainer, existingFeedback);
+    } else {
+      modalContent.appendChild(feedbackContainer);
+    }
+
+    // Re-attach star rating event listeners
+    document.querySelectorAll(".stars .star").forEach((star) => {
+      star.addEventListener("click", (e) => {
+        selectedRating = Number(star.dataset.value);
+        updateStarSelection(selectedRating);
+      });
+    });
+  } catch (error) {
+    console.error("Error fetching feedback:", error);
+  }
+}
+
+// Helper function to convert rating to stars
+function getRatingStars(rating) {
+  const starCount =
+    {
+      VeryBad: 1,
+      Bad: 2,
+      Good: 3,
+      VeryGood: 4,
+      Excellent: 5,
+    }[rating] || 0;
+
+  return "★".repeat(starCount) + "☆".repeat(5 - starCount);
+}
+
+// Helper function to format date
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+window.viewRoomDetails = async function (roomId) {
   const roomCard = document.querySelector(`.room-card[data-id='${roomId}']`);
   if (!roomCard) return;
 
-  const title = roomCard.dataset.title;
-  const address = roomCard.dataset.address;
-  const price = roomCard.dataset.price;
-  const status = roomCard.dataset.status;
+  // Set basic room info
+  document.getElementById("modalRoomTitle").innerText = roomCard.dataset.title;
+  document.getElementById("modalRoomLocation").innerText =
+    roomCard.dataset.address;
+  document.getElementById(
+    "modalRoomPrice"
+  ).innerText = `${roomCard.dataset.price} EGP`;
+
+  // Set room images
   const photos = JSON.parse(roomCard.dataset.photos || "[]");
-
-  document.getElementById("modalRoomTitle").innerText = title;
-  document.getElementById("modalRoomLocation").innerText = address;
-  document.getElementById("modalRoomPrice").innerText = `${price} EGP`;
-  document.getElementById("modalRoomDescription").innerText =
-    "Modern and secure room. Details will be dynamically filled later.";
-
   const gallery = document.querySelector(".room-gallery");
   gallery.innerHTML = photos
     .map(
       (photo) => `
-      <img class="gallery-img"
-        src="https://easyrentapi0.runasp.net/${photo}"
-        alt="Room image"
-        onerror="this.onerror=null; this.src='images/default-room.jpg';"
-      />`
+    <img class="gallery-img"
+      src="https://easyrentapi0.runasp.net/${photo}"
+      alt="Room image"
+      onerror="this.onerror=null; this.src='images/default-room.jpg';"
+    />`
     )
     .join("");
 
-  const features = document.getElementById("modalRoomFeatures");
-  features.innerHTML = `
+  // Set room features
+  document.getElementById("modalRoomFeatures").innerHTML = `
     <div class="feature"><i class="fas fa-wifi"></i> Free Wi-Fi</div>
     <div class="feature"><i class="fas fa-bed"></i> 1 Bed</div>
     <div class="feature"><i class="fas fa-bath"></i> Private Bathroom</div>
   `;
 
+  // Display feedback
+  await displayFeedback(roomId);
+
+  // Show modal
   const modal = document.getElementById("roomDetailsModal");
   modal.dataset.roomId = roomId;
   modal.style.display = "flex";
 };
-
 window.openBookingModal = function (roomId) {
   const bookingModal = document.getElementById("bookingModal");
   const titleEl = document.getElementById("bookingRoomTitle");
@@ -189,6 +295,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// Star rating functionality
 document.querySelectorAll(".star").forEach((star) => {
   star.addEventListener("click", () => {
     selectedRating = Number(star.dataset.value);

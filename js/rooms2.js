@@ -18,8 +18,11 @@ const FALLBACK_DATA = [
     type: "single",
   },
 ];
+
 // 3. المتغيرات العامة
+let units = [];
 let currentRoomId = null;
+let currentRoomPrice = null;
 
 // 4. وظائف API
 async function fetchUnits() {
@@ -80,9 +83,10 @@ function openRoomDetails(unitId) {
   document.getElementById("roomDetailsModal").style.display = "flex";
 }
 
-// 7. إغلاق النافذة المنبثقة
+// 7. إغلاق النافذة المنبثقة (Single declaration)
 function closeModal(modalId) {
   document.getElementById(modalId).style.display = "none";
+  document.body.style.overflow = "auto"; // Re-enable scrolling
 }
 
 // 8. تصفية النتائج
@@ -119,33 +123,7 @@ function showErrorMessage(message) {
   container.appendChild(errorDiv);
 }
 
-// 10. تهيئة الصفحة
-function initializePage() {
-  fetchUnits();
-
-  // إعداد مستمعي الأحداث
-  document
-    .getElementById("searchform")
-    ?.addEventListener("submit", function (e) {
-      e.preventDefault();
-      filterUnits();
-    });
-}
-
-// 11. جعل الدوال متاحة عالمياً
-window.openRoomDetails = openRoomDetails;
-window.closeModal = closeModal;
-window.filterUnits = filterUnits;
-window.initializePage = initializePage;
-
-// بدء التطبيق عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", initializePage);
-
-// Global variables
-
-let currentRoomPrice = null;
-
-// Function to open modal with room details
+// Function to open booking modal
 function openBookingModal(roomId, title, price) {
   currentRoomId = roomId;
   currentRoomPrice = price;
@@ -161,13 +139,7 @@ function openBookingModal(roomId, title, price) {
 
   // Show modal
   document.getElementById("bookingModal").style.display = "block";
-  document.body.style.overflow = "hidden"; // Prevent scrolling
-}
-
-// Function to close modal
-function closeModal(modalId) {
-  document.getElementById(modalId).style.display = "none";
-  document.body.style.overflow = "auto"; // Re-enable scrolling
+  document.body.style.overflow = "hidden";
 }
 
 // Calculate end date based on duration
@@ -224,95 +196,118 @@ function showNotification(message, isSuccess = true) {
   }, 5000);
 }
 
-// Handle form submission
-document
-  .getElementById("bookingForm")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault();
+// 10. تهيئة الصفحة
+function initializePage() {
+  fetchUnits();
 
-    const submitBtn = this.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Processing...';
+  // إعداد مستمعي الأحداث
+  document
+    .getElementById("searchform")
+    ?.addEventListener("submit", function (e) {
+      e.preventDefault();
+      filterUnits();
+    });
 
-    try {
-      // Validate form
-      const moveInDate = document.getElementById("moveInDate").value;
-      if (!moveInDate) {
-        throw new Error("Please select a move-in date");
-      }
+  // Booking form submission
+  document
+    .getElementById("bookingForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-      const duration = document.getElementById("duration").value;
-      let customMonths = 1;
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-      if (duration === "custom") {
-        customMonths = document.getElementById("customMonths").value;
-        if (!customMonths || customMonths < 1) {
-          throw new Error("Please enter a valid number of months");
+      try {
+        // Validate form
+        const moveInDate = document.getElementById("moveInDate").value;
+        if (!moveInDate) {
+          throw new Error("Please select a move-in date");
         }
-      }
 
-      // Prepare booking data
-      const bookingData = {
-        studentId: parseInt(document.getElementById("studentId").value),
-        unitId: parseInt(currentRoomId),
-        startDate: moveInDate,
-        endDate: calculateEndDate(moveInDate, duration, customMonths),
-      };
+        const duration = document.getElementById("duration").value;
+        let customMonths = 1;
 
-      // Get auth token
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        throw new Error("Please log in to book a room");
-      }
-
-      // Send booking request
-      const response = await fetch(
-        "https://easyrentapi0.runasp.net/api/Booking/BookUnit",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(bookingData),
+        if (duration === "custom") {
+          customMonths = document.getElementById("customMonths").value;
+          if (!customMonths || customMonths < 1) {
+            throw new Error("Please enter a valid number of months");
+          }
         }
-      );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || "Booking failed. Please try again."
+        // Prepare booking data
+        const bookingData = {
+          studentId: parseInt(document.getElementById("studentId").value),
+          unitId: parseInt(currentRoomId),
+          startDate: moveInDate,
+          endDate: calculateEndDate(moveInDate, duration, customMonths),
+        };
+
+        // Get auth token
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          throw new Error("Please log in to book a room");
+        }
+
+        // Send booking request
+        const response = await fetch(
+          "https://easyrentapi0.runasp.net/api/Booking/BookUnit",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(bookingData),
+          }
         );
-      }
 
-      // Show success and close modal
-      showNotification("Booking successful! We will contact you soon.");
-      closeModal("bookingModal");
-    } catch (error) {
-      console.error("Booking error:", error);
-      showNotification(error.message, false);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Booking";
-    }
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(
+            errorData.message || "Booking failed. Please try again."
+          );
+        }
+
+        // Show success and close modal
+        showNotification("Booking successful! We will contact you soon.");
+        closeModal("bookingModal");
+      } catch (error) {
+        console.error("Booking error:", error);
+        showNotification(error.message, false);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Booking";
+      }
+    });
+
+  // Toggle custom duration field
+  document.getElementById("duration").addEventListener("change", function () {
+    const customDurationGroup = document.getElementById("customDurationGroup");
+    customDurationGroup.style.display =
+      this.value === "custom" ? "block" : "none";
   });
 
-// Toggle custom duration field
-document.getElementById("duration").addEventListener("change", function () {
-  const customDurationGroup = document.getElementById("customDurationGroup");
-  customDurationGroup.style.display =
-    this.value === "custom" ? "block" : "none";
-});
+  // Set minimum date to today
+  document.getElementById("moveInDate").min = new Date()
+    .toISOString()
+    .split("T")[0];
+}
+
+// 11. جعل الدوال متاحة عالمياً
+window.openRoomDetails = openRoomDetails;
+window.closeModal = closeModal;
+window.filterUnits = filterUnits;
+window.initializePage = initializePage;
+window.openBookingModal = openBookingModal;
+
+// بدء التطبيق عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", initializePage);
 
 // Close modal when clicking outside
 window.addEventListener("click", function (event) {
   if (event.target.className === "modal") {
-    closeModal("bookingModal");
+    closeModal(event.target.id);
   }
 });
-
-// Set minimum date to today
-document.getElementById("moveInDate").min = new Date()
-  .toISOString()
-  .split("T")[0];
