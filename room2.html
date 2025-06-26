@@ -740,7 +740,7 @@
       <div id="rooms-container" class="rooms-container"></div>
 
       <!-- Add this before closing body tag -->
-      <script type="module" src="js/rooms.js"></script>
+      <script defer type="module" src="./js/rooms2.js"></script>
     </div>
 
     <!-- Room Details Modal -->
@@ -841,49 +841,53 @@
         </p>
         <p>Price: <strong id="bookingRoomPrice">1,200 EGP/month</strong></p>
 
-        <form class="booking-form">
-          <input type="hidden" id="roomId" />
+        <!-- Booking Form -->
+        <form id="bookingForm" class="booking-form">
+          <input type="hidden" id="roomId" name="roomId" />
 
           <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" required />
+          <input type="text" id="fullName" name="fullName" required />
 
           <label for="email">Email</label>
-          <input type="email" id="email" required />
+          <input type="email" id="email" name="email" required />
 
           <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" required />
+          <input type="tel" id="phone" name="phone" required />
 
           <label for="studentId">Student ID</label>
-          <input type="text" id="studentId" required />
+          <input type="text" id="studentId" name="studentId" required />
 
           <label for="university">University</label>
-          <select id="university" required>
+          <select id="university" name="university" required>
             <option value="">Select University</option>
             <option value="minia">Minia University</option>
             <option value="other">Other University</option>
           </select>
 
           <label for="moveInDate">Move-in Date</label>
-          <input type="date" id="moveInDate" required />
+          <input type="date" id="moveInDate" name="moveInDate" required />
 
           <label for="duration">Duration</label>
-          <select id="duration" required>
+          <select id="duration" name="duration" required>
             <option value="academic_year">Academic Year</option>
             <option value="two_semesters">Two Semesters</option>
             <option value="one_semester">One Semester</option>
           </select>
 
           <label for="specialRequests">Special Requests</label>
-          <textarea id="specialRequests" rows="3"></textarea>
+          <textarea
+            id="specialRequests"
+            name="specialRequests"
+            rows="3"
+          ></textarea>
 
           <div style="margin-top: 20px">
-            <button type="submit" class="btn-book" onclick="bookUnit(ROOM_ID)">
-              Submit Booking
-            </button>
+            <button type="submit" class="btn-book">Submit Booking</button>
           </div>
         </form>
       </div>
     </div>
-    <script type="module" src="./js/rooms2.js"></script>
+
+    <script defer type="module" src="js/rooms.js"></script>
   </body>
 </html>

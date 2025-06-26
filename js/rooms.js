@@ -195,3 +195,51 @@ document.querySelectorAll(".star").forEach((star) => {
     updateStarSelection(selectedRating);
   });
 });
+
+// Booking form logic
+const bookingForm = document.getElementById("bookingForm");
+bookingForm.addEventListener("submit", async function (event) {
+  event.preventDefault();
+  console.log(bookingForm);
+
+  const formData = new FormData(bookingForm);
+  const moveInDate = formData.get("moveInDate");
+  const duration = formData.get("duration");
+  const studentId = formData.get("studentId");
+
+  const startDate = new Date(moveInDate);
+  const endDate = new Date(startDate);
+  console.log(formData);
+
+  switch (duration) {
+    case "academic_year":
+      endDate.setFullYear(endDate.getFullYear() + 1);
+      break;
+    case "two_semesters":
+      endDate.setMonth(endDate.getMonth() + 8);
+      break;
+    case "one_semester":
+      endDate.setMonth(endDate.getMonth() + 4);
+      break;
+  }
+
+  const unitId = Number(document.getElementById("roomId").value);
+
+  const body = {
+    studentId: Number(studentId),
+    unitId,
+    startDate: startDate.toISOString(),
+    endDate: endDate.toISOString(),
+  };
+
+  console.log(body);
+
+  try {
+    await _post("/api/Booking/BookUnit", body);
+    alert("Booking successful!");
+    closeModal("bookingModal");
+  } catch (err) {
+    console.error("Booking failed:", err);
+    alert("Booking failed. Please try again.");
+  }
+});
