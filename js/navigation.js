@@ -63,3 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavigation();
   updateNavigation();
 });
+
+// إضافة class عند التمرير
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.nav__bar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});

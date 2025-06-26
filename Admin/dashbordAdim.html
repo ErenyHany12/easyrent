@@ -10,77 +10,83 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
       rel="stylesheet"
     />
     <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-
     <style>
       :root {
-        --primary-color: #294777;
-        --secondary-color: #60a5fa;
-        --background: #f3f4f6;
+        --primary-color: #2563eb;
+        --secondary-color: #4f46e5;
+        --background: #f8fafc;
         --card-bg: #ffffff;
-        --light-color: #eff6ff;
-        --dark-color: #1e293b;
+        --light-color: #f0f7ff;
+        --dark-color: #0f172a;
         --success-color: #10b981;
         --warning-color: #f59e0b;
         --danger-color: #ef4444;
-        --gray-color: #94a3b8;
+        --gray-color: #64748b;
+        --border-radius: 12px;
+        --shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --gradient: linear-gradient(135deg, #4f46e5, #2563eb);
       }
 
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Roboto", sans-serif;
+        font-family: "Inter", sans-serif;
       }
 
       body {
         background: var(--background);
         min-height: 100vh;
+        color: var(--dark-color);
       }
 
       .container {
         display: grid;
-        grid-template-columns: 240px 1fr;
-        gap: 30px;
+        grid-template-columns: 260px 1fr;
+        gap: 24px;
+        min-height: 100vh;
       }
 
       /* Sidebar */
       .sidebar {
-        background: var(--primary-color);
-        color: white;
-        padding: 20px;
+        background: var(--card-bg);
+        color: var(--dark-color);
+        padding: 24px;
         height: 100vh;
         position: sticky;
         top: 0;
-        left: 0;
-        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.05);
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        transition: var(--transition);
       }
 
       .logo-container {
         text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .logo {
-        color: #dfeafb;
-        font-size: 28px;
-        font-weight: bold;
-        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
+        color: var(--primary-color);
       }
 
       .nav-menu {
@@ -88,32 +94,35 @@
       }
 
       .nav-item {
-        padding: 15px;
+        padding: 14px 16px;
         margin: 8px 0;
-        border-radius: 8px;
-        transition: 0.3s;
+        border-radius: var(--border-radius);
         cursor: pointer;
         display: flex;
         align-items: center;
+        transition: var(--transition);
       }
 
       .nav-item:hover,
       .nav-item.active {
-        background: var(--secondary-color);
+        background: var(--light-color);
+        color: var(--primary-color);
+        transform: translateX(4px);
       }
 
       .material-icons {
         margin-right: 12px;
+        font-size: 22px;
       }
 
       /* Main Content */
       .main-content {
-        padding: 30px 40px;
+        padding: 24px;
       }
 
       .content-section {
         display: none;
-        animation: fadeIn 0.3s ease;
+        animation: fadeIn 0.5s ease;
       }
 
       .content-section.active {
@@ -123,7 +132,7 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(10px);
+          transform: translateY(12px);
         }
         to {
           opacity: 1;
@@ -142,8 +151,16 @@
       .stat-card {
         background: var(--card-bg);
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       }
 
       .stat-header {
@@ -154,120 +171,237 @@
       }
 
       .stat-header h2 {
-        font-size: 18px;
-        color: #374151;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--gray-color);
+      }
+
+      .stat-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background: var(--gradient);
       }
 
       .stat-value {
-        font-size: 24px;
-        font-weight: 600;
-        color: var(--primary-color);
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--dark-color);
       }
 
       .stat-change {
-        font-size: 0.75rem;
+        font-size: 12px;
         display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--gray-color);
+      }
+
+      /* Card Grid */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .unit-card,
+      .booking-card {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 16px;
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .unit-card:hover,
+      .booking-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
         align-items: center;
       }
 
-      .stat-change.positive {
-        color: var(--success-color);
+      .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--dark-color);
+        max-width: 70%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      .stat-change.negative {
-        color: var(--danger-color);
-      }
-
-      /* Tables */
-      .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--card-bg);
-        margin-top: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      .data-table th,
-      .data-table td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-      }
-
-      .data-table th {
-        background: var(--primary-color);
-        color: white;
-      }
-
-      /* Status */
-      .status {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
+      .card-status {
+        padding: 4px 12px;
         border-radius: 20px;
-        font-size: 0.75rem;
+        font-size: 12px;
         font-weight: 500;
+        text-transform: capitalize;
       }
 
-      .status.pending {
+      .status-pending {
         background: #fef3c7;
         color: #92400e;
       }
 
-      .status.approved {
+      .status-approved {
         background: #d1fae5;
         color: #065f46;
       }
 
-      .status.rejected {
+      .status-rejected {
         background: #fee2e2;
         color: #991b1b;
+      }
+
+      .status-active {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .status-expired {
+        background: #e5e7eb;
+        color: #4b5563;
+      }
+
+      .card-details {
+        display: grid;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--dark-color);
+      }
+
+      .card-details span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .card-details .booking-date {
+        font-size: 12px;
+        color: var(--gray-color);
+        font-style: italic;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .unit-photos-container {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .unit-photo-thumbnail {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .unit-photo-thumbnail:hover {
+        transform: scale(1.05);
       }
 
       /* Controls */
       .controls {
         display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
+        gap: 12px;
+        margin-bottom: 24px;
         flex-wrap: wrap;
+        align-items: center;
       }
 
       .search-input {
         flex: 1;
-        max-width: 300px;
-        padding: 0.8rem;
-        border: 1px solid #bdc3c7;
-        border-radius: 4px;
+        max-width: 320px;
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: var(--border-radius);
+        font-size: 14px;
+        transition: var(--transition);
+        background: var(--card-bg);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
       }
 
       .btn {
-        padding: 0.8rem 1.5rem;
+        padding: 10px 20px;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--border-radius);
         cursor: pointer;
-        transition: opacity 0.3s;
+        font-size: 14px;
+        font-weight: 600;
         display: inline-flex;
         align-items: center;
         gap: 8px;
+        transition: var(--transition);
+        position: relative;
+        background: var(--gradient);
+        color: white;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .btn-primary {
-        background: #3498db;
-        color: white;
+        background: var(--gradient);
       }
 
       .btn-success {
-        background: #2ecc71;
-        color: white;
+        background: linear-gradient(135deg, #10b981, #059669);
       }
 
       .btn-danger {
-        background: #e74c3c;
-        color: white;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
       }
 
       .btn-warning {
-        background: #f59e0b;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+      }
+
+      .btn.btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      /* Tooltips */
+      .btn[data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--dark-color);
         color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 10;
       }
 
       /* Modals */
@@ -278,169 +412,157 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         z-index: 1000;
         align-items: center;
         justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal.show {
+        display: flex;
+        opacity: 1;
       }
 
       .modal-content {
-        background: white;
+        background: var(--card-bg);
         width: 90%;
         max-width: 500px;
         padding: 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: var(--border-radius);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      .modal.show .modal-content {
+        transform: scale(1);
       }
 
       .modal-content h2 {
-        margin-bottom: 24px;
-        color: #1f2937;
-      }
-
-      .form-actions {
-        margin-top: 24px;
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-      }
-
-      /* Form Elements */
-      .form-group {
-        margin-bottom: 16px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #374151;
-        font-weight: 500;
-      }
-
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #d1d5db;
-        border-radius: 6px;
-        font-size: 14px;
-      }
-
-      .form-group textarea {
-        min-height: 100px;
-      }
-
-      /* Header */
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-      }
-
-      .page-title h1 {
-        font-size: 1.5rem;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 600;
         color: var(--dark-color);
       }
 
-      .user-menu {
-        display: flex;
-        align-items: center;
-      }
-
-      .notification-icon {
-        position: relative;
-        margin-right: 1.5rem;
-        color: var(--gray-color);
-        cursor: pointer;
-      }
-
-      .notification-badge {
+      .close-modal {
         position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: var(--danger-color);
-        color: white;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        font-size: 10px;
+        top: 12px;
+        right: 12px;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--gray-color);
+        background: none;
+        border: none;
+      }
+
+      .close-modal:hover {
+        color: var(--dark-color);
+      }
+
+      /* Add Unit Modal */
+      #addUnitModal .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      /* Reject Modal */
+      #rejectModal .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      #rejectModal textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      /* Unit Details Modal */
+      #unitDetailsModal .modal-content {
+        max-width: 600px;
+      }
+
+      #unitDetailsModal .unit-details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      #unitDetailsModal #unitModalPhotos {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      #unitDetailsModal #unitModalPhotos img {
+        width: 100%;
+        height: auto;
+        border-radius: var(--border-radius);
+        margin-bottom: 8px;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 1200;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
-      .user-profile {
-        display: flex;
-        align-items: center;
+      .lightbox.show {
+        opacity: 1;
       }
 
-      .user-profile img {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        margin-right: 10px;
-        object-fit: cover;
+      .lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        border-radius: var(--border-radius);
       }
 
-      .user-name {
-        font-weight: 500;
-        color: var(--dark-color);
-      }
-
-      /* Unit Photos */
-      .unit-photos-container {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-      }
-
-      .unit-photo-thumbnail {
-        width: 80px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: transform 0.2s;
-      }
-
-      .unit-photo-thumbnail:hover {
-        transform: scale(1.1);
-      }
-
-      /* No Data Message */
+      /* No Data */
       .no-data {
         text-align: center;
-        padding: 40px;
-        color: #6b7280;
-        background: #f9fafb;
+        padding: 32px;
+        color: var(--gray-color);
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        font-size: 16px;
       }
 
       .no-data .material-icons {
-        font-size: 48px;
-        display: block;
-        margin-bottom: 16px;
-        color: #d1d5db;
+        font-size: 40px;
+        margin-bottom: 12px;
+        color: #e2e8f0;
       }
 
       /* Notification */
       .notification {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 24px;
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
         z-index: 1100;
         transform: translateY(100px);
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: var(--transition);
       }
 
       .notification.show {
@@ -456,6 +578,113 @@
         border-left: 4px solid var(--danger-color);
       }
 
+      /* Form Styling */
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: var(--dark-color);
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e2e8f0;
+        border-radius: var(--border-radius);
+        font-size: 14px;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .form-group input:invalid[required]:not(:placeholder-shown) {
+        border-color: var(--danger-color);
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .page-title h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--dark-color);
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .notification-icon {
+        position: relative;
+        font-size: 22px;
+        color: var(--gray-color);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .notification-icon:hover {
+        color: var(--primary-color);
+      }
+
+      .notification-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--danger-color);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .user-profile img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
       /* Mobile Responsive */
       @media (max-width: 768px) {
         .container {
@@ -464,10 +693,9 @@
 
         .sidebar {
           position: fixed;
-          z-index: 1000;
-          width: 240px;
+          width: 260px;
           transform: translateX(-100%);
-          transition: transform 0.3s ease;
+          z-index: 1000;
         }
 
         .sidebar.active {
@@ -476,103 +704,44 @@
 
         .menu-toggle {
           display: block;
+          z-index: 1100;
+        }
+
+        .main-content {
+          padding: 16px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #unitDetailsModal .unit-details-grid {
+          grid-template-columns: 1fr;
         }
       }
 
       .menu-toggle {
         position: fixed;
-        left: 15px;
-        top: 15px;
-        z-index: 1100;
-        background: var(--primary-color);
+        top: 16px;
+        left: 16px;
+        background: var(--gradient);
         color: white;
         border: none;
-        padding: 10px;
-        border-radius: 5px;
+        padding: 10px 14px;
+        border-radius: var(--border-radius);
         cursor: pointer;
         display: none;
-      }
-
-      /* Unit Details Modal Styles */
-      #unitDetailsModal .modal-content {
-        max-width: 800px;
-        padding: 30px;
-      }
-
-      #unitDetailsModal .form-group {
-        margin-bottom: 15px;
-        padding: 10px;
-        background: #f8f9fa;
-        border-radius: 8px;
-      }
-
-      #unitDetailsModal .form-group label {
-        font-weight: bold;
-        color: var(--primary-color);
-      }
-
-      #unitDetailsModal .form-group div {
-        padding: 5px 0;
-      }
-
-      /* Photo grid styles */
-      #unitModalPhotos {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 10px;
-        max-height: 400px;
-        overflow-y: auto;
-        padding: 10px;
-      }
-
-      /* Lightbox animation */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      /* Responsive layout */
-      @media (max-width: 768px) {
-        #unitDetailsModal .modal-content > div {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      /* Status classes for modal */
-      .status-pending {
-        background: #fef3c7;
-        color: #92400e;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-
-      .status-approved {
-        background: #d1fae5;
-        color: #065f46;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-
-      .status-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 500;
+        z-index: 1100;
+        font-size: 20px;
       }
     </style>
   </head>
   <body>
-    <button class="menu-toggle">☰</button>
+    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
 
     <div class="container">
       <!-- Sidebar -->
@@ -612,7 +781,7 @@
               <h1>Dashboard Overview</h1>
             </div>
             <div class="user-menu">
-              <div class="notification-icon">
+              <div class="notification-icon" data-tooltip="Notifications">
                 <i class="fas fa-bell"></i>
                 <span class="notification-badge">3</span>
               </div>
@@ -623,16 +792,11 @@
             </div>
           </div>
 
-          <!-- Stats Cards -->
-
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Total Units</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--primary-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-home"></i>
                 </div>
               </div>
@@ -641,14 +805,10 @@
                 <i class="fas fa-sync-alt fa-spin"></i> Loading...
               </div>
             </div>
-
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Pending Approval</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--warning-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-clock"></i>
                 </div>
               </div>
@@ -657,14 +817,10 @@
                 <i class="fas fa-sync-alt fa-spin"></i> Loading...
               </div>
             </div>
-
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Available Units</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--success-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-check-circle"></i>
                 </div>
               </div>
@@ -675,31 +831,17 @@
             </div>
           </div>
 
-          <!-- Recent Bookings -->
           <div class="card">
-            <div class="card-header">
-              <h2 class="card-title">Recent Bookings</h2>
+            <div class="header">
+              <h2 class="page-title">Recent Bookings</h2>
               <a href="#" class="view-all">View All</a>
             </div>
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Student</th>
-                  <th>Unit</th>
-                  <th>Period</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="recentBookingsTable">
-                <tr>
-                  <td colspan="5" class="no-data">
-                    <i class="material-icons">info</i>
-                    No data available
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="card-grid" id="recentBookingsTable">
+              <div class="no-data">
+                <i class="material-icons">info</i>
+                No data available
+              </div>
+            </div>
           </div>
         </section>
 
@@ -709,22 +851,34 @@
             <div class="page-title">
               <h1>Units Management</h1>
             </div>
-            <button class="btn btn-primary" onclick="fetchUnits()">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-            <button class="btn btn-success" onclick="showAddUnitModal()">
-              <i class="fas fa-plus"></i> Add Unit
-            </button>
+            <div class="controls">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search units..."
+              />
+              <button
+                class="btn btn-primary"
+                onclick="fetchUnits()"
+                data-tooltip="Refresh Data"
+              >
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+              <button
+                class="btn btn-success"
+                id="addUnitBtn"
+                data-tooltip="Add New Unit"
+              >
+                <i class="fas fa-plus"></i> Add Unit
+              </button>
+            </div>
           </div>
 
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Total Units</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--primary-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-home"></i>
                 </div>
               </div>
@@ -733,14 +887,10 @@
                 <i class="fas fa-sync-alt fa-spin"></i> Loading...
               </div>
             </div>
-
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Pending Approval</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--warning-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-clock"></i>
                 </div>
               </div>
@@ -749,14 +899,10 @@
                 <i class="fas fa-sync-alt fa-spin"></i> Loading...
               </div>
             </div>
-
             <div class="stat-card">
               <div class="stat-header">
                 <h2>Available Units</h2>
-                <div
-                  class="stat-icon"
-                  style="background-color: var(--success-color)"
-                >
+                <div class="stat-icon">
                   <i class="fas fa-check-circle"></i>
                 </div>
               </div>
@@ -767,50 +913,64 @@
             </div>
           </div>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Photos</th>
-                <th>Price</th>
-                <th>Address</th>
-                <th>Status</th>
-                <th>Owner</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="unitsTable">
-              <tr>
-                <td colspan="8" class="no-data">
-                  <i class="material-icons">info</i>
-                  No units found
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="card-grid" id="unitsTable">
+            <div class="no-data">
+              <i class="material-icons">info</i>
+              No units found
+            </div>
+          </div>
         </section>
 
-        <!-- Other sections (Students, Bookings) remain the same -->
+        <!-- Students and Bookings Sections -->
+        <section id="students" class="content-section">
+          <div class="header">
+            <div class="page-title">
+              <h1>Students Management</h1>
+            </div>
+          </div>
+          <div class="no-data">
+            <i class="material-icons">info</i>
+            Students management coming soon...
+          </div>
+        </section>
+        <section id="bookings" class="content-section">
+          <div class="header">
+            <div class="page-title">
+              <h1>Bookings Management</h1>
+            </div>
+          </div>
+          <div class="no-data">
+            <i class="material-icons">info</i>
+            Bookings management coming soon...
+          </div>
+        </section>
       </main>
     </div>
 
     <!-- Rejection Reason Modal -->
     <div class="modal" id="rejectModal">
       <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()">×</button>
         <h2>Provide Rejection Reason</h2>
         <div class="form-group">
           <label for="rejectionReason">Reason for rejection:</label>
           <textarea
             id="rejectionReason"
             placeholder="Please specify why this unit is being rejected..."
+            required
           ></textarea>
         </div>
         <div class="form-actions">
-          <button class="btn btn-danger" onclick="confirmRejection()">
-            <i class="fas fa-times"></i> Confirm Rejection
+          <button
+            class="btn btn-danger"
+            onclick="confirmRejection()"
+            data-tooltip="Confirm Rejection"
+          >
+            <i class="fas fa-times"></i> Confirm
           </button>
-          <button class="btn" onclick="closeModal()">Cancel</button>
+          <button class="btn" onclick="closeModal()" data-tooltip="Cancel">
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -818,33 +978,68 @@
     <!-- Add Unit Modal -->
     <div class="modal" id="addUnitModal">
       <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()">×</button>
         <h2>Add New Unit</h2>
         <form id="addUnitForm">
           <div class="form-group">
             <label for="unitTitle">Title:</label>
-            <input type="text" id="unitTitle" required />
+            <input type="text" id="unitTitle" name="title" required />
           </div>
           <div class="form-group">
             <label for="unitPrice">Price (EGP/month):</label>
-            <input type="number" id="unitPrice" required />
+            <input
+              type="number"
+              id="unitPrice"
+              name="priceForMonth"
+              min="0"
+              step="0.01"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="unitAddress">Address:</label>
-            <input type="text" id="unitAddress" required />
+            <input type="text" id="unitAddress" name="address" required />
           </div>
           <div class="form-group">
             <label for="unitOwner">Owner Name:</label>
-            <input type="text" id="unitOwner" required />
+            <input type="text" id="unitOwner" name="ownerName" required />
           </div>
           <div class="form-group">
             <label for="unitOwnerId">Owner ID:</label>
-            <input type="number" id="unitOwnerId" required />
+            <input
+              type="number"
+              id="unitOwnerId"
+              name="ownerId_FK"
+              min="1"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="unitPhotoUrl">Photo URL (optional):</label>
+            <input type="url" id="unitPhotoUrl" name="photoUrl" />
+          </div>
+          <div class="form-group">
+            <label for="unitStatus">Status:</label>
+            <select id="unitStatus" name="status" required>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
           </div>
           <div class="form-actions">
-            <button type="submit" class="btn btn-success">
-              <i class="fas fa-save"></i> Save Unit
+            <button
+              type="submit"
+              class="btn btn-success"
+              data-tooltip="Save Unit"
+            >
+              <i class="fas fa-save"></i> Save
             </button>
-            <button type="button" class="btn" onclick="closeModal()">
+            <button
+              type="button"
+              class="btn"
+              id="addUnitModalClBtn"
+              data-tooltip="Cancel"
+            >
               Cancel
             </button>
           </div>
@@ -854,580 +1049,39 @@
 
     <!-- Unit Details Modal -->
     <div class="modal" id="unitDetailsModal">
-      <div class="modal-content" style="max-width: 800px">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h2 id="unitModalTitle">Unit Details</h2>
-          <button
-            class="btn"
-            onclick="closeModal()"
-            style="
-              background: none;
-              color: var(--dark-color);
-              font-size: 1.5rem;
-            "
-          >
-            &times;
-          </button>
-        </div>
-        <div
-          style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-          "
-        >
-          <div>
-            <div class="form-group">
-              <label><strong>ID:</strong></label>
-              <div id="unitModalId">-</div>
-            </div>
-            <div class="form-group">
-              <label><strong>Price:</strong></label>
-              <div id="unitModalPrice">-</div>
-            </div>
-            <div class="form-group">
-              <label><strong>Address:</strong></label>
-              <div id="unitModalAddress">-</div>
-            </div>
-            <div class="form-group">
-              <label><strong>Status:</strong></label>
-              <div id="unitModalStatus">-</div>
-            </div>
-            <div class="form-group">
-              <label><strong>Owner:</strong></label>
-              <div id="unitModalOwner">-</div>
-            </div>
+      <div class="modal-content">
+        <button class="close-modal" id="unitModalTitleBtn">×</button>
+        <h2 id="unitModalTitle">Unit Details</h2>
+        <div class="unit-details-grid">
+          <div class="form-group">
+            <label>ID:</label>
+            <div id="unitModalId">-</div>
           </div>
-          <div>
-            <h3 style="margin-bottom: 15px">Photos</h3>
-            <div
-              id="unitModalPhotos"
-              style="
-                max-height: 400px;
-                overflow-y: auto;
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 10px;
-              "
-            >
-              <!-- Photos will be inserted here -->
-            </div>
+          <div class="form-group">
+            <label>Price:</label>
+            <div id="unitModalPrice">-</div>
+          </div>
+          <div class="form-group">
+            <label>Address:</label>
+            <div id="unitModalAddress">-</div>
+          </div>
+          <div class="form-group">
+            <label>Status:</label>
+            <div id="unitModalStatus">-</div>
+          </div>
+          <div class="form-group">
+            <label>Owner:</label>
+            <div id="unitModalOwner">-</div>
           </div>
         </div>
-        <div class="form-actions" style="margin-top: 20px">
-          <button class="btn" onclick="closeModal()">Close</button>
+        <h3>Photos</h3>
+        <div id="unitModalPhotos"></div>
+        <div class="form-actions">
+          <button class="btn" id="closeBtn" data-tooltip="Close">Close</button>
         </div>
       </div>
     </div>
 
-    <script>
-      // Global variables
-      let units = [];
-      let currentUnitId = null;
-
-      // Fetch units from API
-      async function fetchUnits() {
-        try {
-          showLoading("unitsTable", "Loading units...");
-
-          const response = await fetch(
-            "https://easyrentapi0.runasp.net/api/Unit/GetAllUnits"
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to fetch units");
-          }
-
-          const data = await response.json();
-
-          if (data && data.$values) {
-            units = data.$values;
-            renderUnitsTable();
-            updateUnitStats();
-            showNotification("Units loaded successfully", true);
-          } else {
-            units = [];
-            showNotification("No units available", false);
-            showNoData("unitsTable", "No units found");
-          }
-        } catch (error) {
-          console.error("Error fetching units:", error);
-          showNotification("Failed to load units: " + error.message, false);
-          showNoData("unitsTable", "Error loading data");
-        }
-      }
-
-      // Render units table
-      function renderUnitsTable() {
-        const tableBody = document.getElementById("unitsTable");
-
-        if (units.length === 0) {
-          showNoData("unitsTable", "No units found");
-          return;
-        }
-
-        tableBody.innerHTML = units
-          .map(
-            (unit) => `
-                <tr>
-                    <td>${unit.id}</td>
-                    <td>${unit.title || "Untitled Unit"}</td>
-                    <td>
-                        <div class="unit-photos-container">
-                            ${renderUnitPhotos(unit.photoUrls)}
-                        </div>
-                    </td>
-                    <td>${unit.priceForMonth} EGP/month</td>
-                    <td>${unit.address || "N/A"}</td>
-                    <td>
-                        <span class="status status-${unit.status.toLowerCase()}">
-                            ${unit.status}
-                        </span>
-                    </td>
-                    <td>${unit.ownerName || "N/A"}</td>
-                    <td>
-                        <div style="display: flex; gap: 8px;">
-                            ${
-                              unit.status === "Pending"
-                                ? `
-                                <button class="btn btn-success btn-sm" onclick="approveUnit(${unit.id})">
-                                    <i class="fas fa-check"></i> Approve
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="openRejectModal(${unit.id})">
-                                    <i class="fas fa-times"></i> Reject
-                                </button>
-                            `
-                                : ""
-                            }
-                            <button class="btn btn-primary btn-sm" onclick="viewUnitDetails(${
-                              unit.id
-                            })">
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUnit(${
-                              unit.id
-                            })">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `
-          )
-          .join("");
-      }
-
-      // Render unit photos
-      function renderUnitPhotos(photoUrls) {
-        if (
-          !photoUrls ||
-          !photoUrls.$values ||
-          photoUrls.$values.length === 0
-        ) {
-          return "<span>No photos</span>";
-        }
-
-        // Show first 3 thumbnails
-        return (
-          photoUrls.$values
-            .slice(0, 3)
-            .map(
-              (photo) => `
-                <img src="https://easyrentapi0.runasp.net/${photo}" 
-                     class="unit-photo-thumbnail" 
-                     title="Click to view larger"
-                     onclick="viewPhotoInLightbox('${photo}')">
-            `
-            )
-            .join("") +
-          (photoUrls.$values.length > 3
-            ? `<span>+${photoUrls.$values.length - 3} more</span>`
-            : "")
-        );
-      }
-
-      // Update unit statistics
-      function updateUnitStats() {
-        document.getElementById("totalUnitsCount").textContent = units.length;
-
-        const pendingUnits = units.filter((u) => u.status === "Pending").length;
-        document.getElementById("pendingUnitsCount").textContent = pendingUnits;
-
-        const availableUnits = units.filter(
-          (u) => u.status === "Approved"
-        ).length;
-        document.getElementById("availableUnitsCount").textContent =
-          availableUnits;
-      }
-
-      // Approve unit
-      async function approveUnit(unitId) {
-        if (!confirm("Are you sure you want to approve this unit?")) return;
-
-        try {
-          const response = await fetch(
-            `https://easyrentapi0.runasp.net/api/Unit/ApproveUnit/${unitId}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to approve unit");
-          }
-
-          // Update local data
-          const unitIndex = units.findIndex((u) => u.id === unitId);
-          if (unitIndex !== -1) {
-            units[unitIndex].status = "Approved";
-            renderUnitsTable();
-            updateUnitStats();
-          }
-
-          showNotification("Unit approved successfully", true);
-        } catch (error) {
-          console.error("Error approving unit:", error);
-          showNotification("Failed to approve unit: " + error.message, false);
-        }
-      }
-
-      // Open reject modal
-      function openRejectModal(unitId) {
-        currentUnitId = unitId;
-        document.getElementById("rejectModal").style.display = "flex";
-      }
-
-      // Confirm rejection
-      async function confirmRejection() {
-        const reason = document.getElementById("rejectionReason").value.trim();
-        if (!reason) {
-          alert("Please provide a rejection reason");
-          return;
-        }
-
-        try {
-          const response = await fetch(
-            `https://easyrentapi0.runasp.net/api/Unit/RejectUnit/${currentUnitId}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
-              body: JSON.stringify({ rejectionReason: reason }),
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to reject unit");
-          }
-
-          // Update local data
-          const unitIndex = units.findIndex((u) => u.id === currentUnitId);
-          if (unitIndex !== -1) {
-            units[unitIndex].status = "Rejected";
-            renderUnitsTable();
-            updateUnitStats();
-          }
-
-          showNotification("Unit rejected successfully", true);
-          closeModal();
-        } catch (error) {
-          console.error("Error rejecting unit:", error);
-          showNotification("Failed to reject unit: " + error.message, false);
-        }
-      }
-
-      // Delete unit
-      async function deleteUnit(unitId) {
-        if (
-          !confirm(
-            "Are you sure you want to delete this unit? This cannot be undone."
-          )
-        )
-          return;
-
-        try {
-          const response = await fetch(
-            `https://easyrentapi0.runasp.net/api/Unit/${unitId}`,
-            {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Failed to delete unit");
-          }
-
-          // Remove from local data
-          units = units.filter((u) => u.id !== unitId);
-          renderUnitsTable();
-          updateUnitStats();
-
-          showNotification("Unit deleted successfully", true);
-        } catch (error) {
-          console.error("Error deleting unit:", error);
-          showNotification("Failed to delete unit: " + error.message, false);
-        }
-      }
-
-      // View unit details in modal
-      function viewUnitDetails(unitId) {
-        const unit = units.find((u) => u.id === unitId);
-        if (!unit) return;
-
-        // Fill modal with unit data
-        document.getElementById("unitModalTitle").textContent =
-          unit.title || "Untitled Unit";
-        document.getElementById("unitModalId").textContent = unit.id;
-        document.getElementById(
-          "unitModalPrice"
-        ).textContent = `${unit.priceForMonth} EGP/month`;
-        document.getElementById("unitModalAddress").textContent =
-          unit.address || "N/A";
-
-        // Status with colored badge
-        const statusElement = document.getElementById("unitModalStatus");
-        statusElement.innerHTML = "";
-        const statusBadge = document.createElement("span");
-        statusBadge.className = `status status-${unit.status.toLowerCase()}`;
-        statusBadge.textContent = unit.status;
-        statusElement.appendChild(statusBadge);
-
-        document.getElementById("unitModalOwner").textContent = `${
-          unit.ownerName || "N/A"
-        } (ID: ${unit.ownerId_FK || "N/A"})`;
-
-        // Load photos
-        const photosContainer = document.getElementById("unitModalPhotos");
-        photosContainer.innerHTML = "";
-
-        if (
-          unit.photoUrls &&
-          unit.photoUrls.$values &&
-          unit.photoUrls.$values.length > 0
-        ) {
-          unit.photoUrls.$values.forEach((photo) => {
-            const imgWrapper = document.createElement("div");
-            imgWrapper.style.position = "relative";
-            imgWrapper.style.paddingBottom = "100%";
-            imgWrapper.style.overflow = "hidden";
-            imgWrapper.style.borderRadius = "8px";
-
-            const img = document.createElement("img");
-            img.src = `https://easyrentapi0.runasp.net/${photo}`;
-            img.style.position = "absolute";
-            img.style.top = "0";
-            img.style.left = "0";
-            img.style.width = "100%";
-            img.style.height = "100%";
-            img.style.objectFit = "cover";
-            img.style.cursor = "pointer";
-            img.onclick = () => viewPhotoInLightbox(photo);
-
-            imgWrapper.appendChild(img);
-            photosContainer.appendChild(imgWrapper);
-          });
-        } else {
-          photosContainer.innerHTML =
-            '<div class="no-data"><i class="material-icons">photo_camera</i> No photos available</div>';
-        }
-
-        // Show modal
-        document.getElementById("unitDetailsModal").style.display = "flex";
-      }
-
-      // View photo in lightbox
-      function viewPhotoInLightbox(photoUrl) {
-        const lightbox = document.createElement("div");
-        lightbox.style.position = "fixed";
-        lightbox.style.top = "0";
-        lightbox.style.left = "0";
-        lightbox.style.width = "100%";
-        lightbox.style.height = "100%";
-        lightbox.style.backgroundColor = "rgba(0,0,0,0.9)";
-        lightbox.style.display = "flex";
-        lightbox.style.alignItems = "center";
-        lightbox.style.justifyContent = "center";
-        lightbox.style.zIndex = "2000";
-        lightbox.style.cursor = "zoom-out";
-        lightbox.onclick = () => lightbox.remove();
-
-        const img = document.createElement("img");
-        img.src = `https://easyrentapi0.runasp.net/${photoUrl}`;
-        img.style.maxWidth = "90%";
-        img.style.maxHeight = "90%";
-        img.style.objectFit = "contain";
-
-        lightbox.appendChild(img);
-        document.body.appendChild(lightbox);
-      }
-
-      // Show add unit modal
-      function showAddUnitModal() {
-        document.getElementById("addUnitModal").style.display = "flex";
-      }
-
-      // Close modal
-      function closeModal() {
-        document.querySelectorAll(".modal").forEach((modal) => {
-          modal.style.display = "none";
-        });
-        currentUnitId = null;
-        document.getElementById("rejectionReason").value = "";
-      }
-
-      // Show loading state
-      function showLoading(elementId, message) {
-        const element = document.getElementById(elementId);
-        if (element) {
-          element.innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align: center; padding: 20px;">
-                            <i class="fas fa-spinner fa-spin"></i> ${message}
-                        </td>
-                    </tr>
-                `;
-        }
-      }
-
-      // Show no data message
-      function showNoData(elementId, message) {
-        const element = document.getElementById(elementId);
-        if (element) {
-          element.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="no-data">
-                            <i class="material-icons">info</i> ${message}
-                        </td>
-                    </tr>
-                `;
-        }
-      }
-
-      // Show notification
-      function showNotification(message, isSuccess = true) {
-        const notification = document.createElement("div");
-        notification.className = `notification ${
-          isSuccess ? "success" : "error"
-        }`;
-        notification.innerHTML = `
-                <i class="fas fa-${
-                  isSuccess ? "check-circle" : "exclamation-circle"
-                }"></i>
-                <span>${message}</span>
-            `;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-          notification.classList.add("show");
-        }, 10);
-
-        setTimeout(() => {
-          notification.classList.remove("show");
-          setTimeout(() => {
-            notification.remove();
-          }, 300);
-        }, 5000);
-      }
-
-      // Initialize page
-      document.addEventListener("DOMContentLoaded", () => {
-        fetchUnits();
-
-        // Set up navigation
-        const navItems = document.querySelectorAll(".nav-item");
-        const sections = document.querySelectorAll(".content-section");
-
-        navItems.forEach((item) => {
-          item.addEventListener("click", () => {
-            navItems.forEach((nav) => nav.classList.remove("active"));
-            item.classList.add("active");
-
-            const target = item.dataset.target;
-            sections.forEach((section) => {
-              section.classList.remove("active");
-              if (section.id === target) {
-                section.classList.add("active");
-              }
-            });
-          });
-        });
-
-        // Mobile menu toggle
-        document.querySelector(".menu-toggle").addEventListener("click", () => {
-          document.querySelector(".sidebar").classList.toggle("active");
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener("click", (event) => {
-          if (event.target.classList.contains("modal")) {
-            closeModal();
-          }
-        });
-
-        // Add unit form submission
-        document
-          .getElementById("addUnitForm")
-          .addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const unitData = {
-              title: document.getElementById("unitTitle").value,
-              priceForMonth: parseFloat(
-                document.getElementById("unitPrice").value
-              ),
-              address: document.getElementById("unitAddress").value,
-              ownerName: document.getElementById("unitOwner").value,
-              ownerId_FK: parseInt(
-                document.getElementById("unitOwnerId").value
-              ),
-              status: "Pending",
-            };
-
-            try {
-              const response = await fetch(
-                "https://easyrentapi0.runasp.net/api/Unit/AddUnit",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem(
-                      "authToken"
-                    )}`,
-                  },
-                  body: JSON.stringify(unitData),
-                }
-              );
-
-              if (!response.ok) {
-                throw new Error("Failed to add unit");
-              }
-
-              showNotification("Unit added successfully", true);
-              closeModal();
-              fetchUnits(); // Refresh the list
-            } catch (error) {
-              console.error("Error adding unit:", error);
-              showNotification("Failed to add unit: " + error.message, false);
-            }
-          });
-      });
-    </script>
+    <script defer type="module" src="./adminScript.js"></script>
   </body>
 </html>

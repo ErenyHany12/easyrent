@@ -691,26 +691,65 @@ nav {
   z-index: -1;
 }
 
-.intro__contanier {
-  display: grid;
-  gap: 4rem 2rem;
-}
-
 .intro__contanier .section__subheader {
   color: var(--secondary-color);
 }
 
 .intro__container :is(.section__header, .section__description) {
   margin: 1rem;
+
   color: var(--white);
 }
 
-.intro__video {
-  max-width: 450px;
-  margin: auto;
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+.intro__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: first baseline;
 }
 
+.intro__content {
+  padding-right: 2rem;
+}
+
+.intro__video {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.intro__video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.intro__video:hover video {
+  transform: scale(1.05);
+}
+
+/* تخطيط متجاوب للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .intro__container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .intro__content {
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .intro__video {
+    min-height: 300px;
+  }
+}
 .feature__contanier :is(.section__header, .section__subheader) {
   text-align: center;
 }
