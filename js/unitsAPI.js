@@ -1,4 +1,4 @@
-import { axiosClient } from "./apiClint";
+import { axiosClient } from "./apiClint.js";
 
 export function addNewUnit(data) {
   return axiosClient.post(`/api/Unit`, JSON.stringify(data));
