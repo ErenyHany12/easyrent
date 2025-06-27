@@ -2,6 +2,8 @@ import { _get, _post, _put, _delete } from "../js/apiClint.js";
 let units = [];
 let currentUnitId = null;
 let bookings = [];
+let students = [];
+let currentStudentId = null;
 
 // ====================== Fetch & Render ======================
 

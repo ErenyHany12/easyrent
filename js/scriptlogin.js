@@ -215,5 +215,5 @@ function showNotification(message, isSuccess = true) {
     setTimeout(() => {
       notification.style.display = "none";
     }, 300);
-  }, 5000);
+  }, 4000);
 }

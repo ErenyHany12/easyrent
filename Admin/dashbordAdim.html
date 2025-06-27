@@ -738,6 +738,69 @@
         z-index: 1100;
         font-size: 20px;
       }
+      /* Students Table Styles */
+      .table-container {
+        margin: 20px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .data-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+      }
+
+      .data-table .actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .data-table .btn {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+
+      .status {
+        padding: 4px 8px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .status-active {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .status-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      /* Student Info in Modal */
+      .student-info p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      .student-info strong {
+        display: inline-block;
+        width: 80px;
+      }
     </style>
   </head>
   <body>
@@ -927,12 +990,88 @@
             <div class="page-title">
               <h1>Students Management</h1>
             </div>
+            <div class="actions">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search students..."
+              />
+              <button class="btn btn-primary" onclick="fetchStudents()">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+              <button id="addStudentBtn" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add Student
+              </button>
+            </div>
           </div>
-          <div class="no-data">
-            <i class="material-icons">info</i>
-            Students management coming soon...
+          <div id="studentsTable" class="table-container">
+            <div class="no-data">
+              <i class="material-icons">info</i>
+              Click refresh to load students
+            </div>
           </div>
         </section>
+
+        <!-- Student Details Modal -->
+        <div id="studentDetailsModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 id="studentModalName">Student Details</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="student-info">
+                <p>
+                  <strong>Email:</strong> <span id="studentModalEmail"></span>
+                </p>
+                <p>
+                  <strong>Phone:</strong> <span id="studentModalPhone"></span>
+                </p>
+                <p>
+                  <strong>Status:</strong> <span id="studentModalStatus"></span>
+                </p>
+                <div id="studentModalDetails"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Student Modal -->
+        <section id="addStudentModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Add New Student</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="addStudentForm">
+                <div class="form-group">
+                  <label for="studentName">Name</label>
+                  <input type="text" id="studentName" name="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="studentEmail">Email</label>
+                  <input type="email" id="studentEmail" name="email" required />
+                </div>
+                <div class="form-group">
+                  <label for="studentPhone">Phone</label>
+                  <input type="tel" id="studentPhone" name="phone" />
+                </div>
+                <div class="form-group">
+                  <label for="studentStatus">Status</label>
+                  <select id="studentStatus" name="status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Save Student
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
         <section id="bookings" class="content-section">
           <div class="header">
             <div class="page-title">

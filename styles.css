@@ -154,6 +154,18 @@ body {
   font-size: 1.2rem;
 }
 
+/* RTL Styles for SweetAlert2 */
+.rtl-popup {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.rtl-text {
+  direction: rtl !important;
+  text-align: right !important;
+  font-family: inherit !important;
+}
+
 /* Back to Top Button */
 .back-to-top {
   position: fixed;
