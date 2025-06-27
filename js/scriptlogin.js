@@ -55,18 +55,19 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       let endpoint, redirectUrl;
 
+      // Determine endpoint and redirect based on user type
       switch (userType) {
         case "owner":
           endpoint = "/Owner/login";
-          redirectUrl = "../owner/myproparty.html"; // أو المسار الصحيح بالنسبة لصفحة التسجيل
+          redirectUrl = "../owner/myproparty.html";
           break;
         case "admin":
           endpoint = "/Admin/login";
-          redirectUrl = "../Admin/dashbordAdim.html"; // لاحظت أن هناك خطأ إملائي في اسم الملف
+          redirectUrl = "Admin/dashbordAdim.html";
           break;
         case "student":
           endpoint = "/Student/login";
-          redirectUrl = "../room2.html"; // أو المسار الصحيح
+          redirectUrl = "room2.html";
           break;
         default:
           throw new Error("Invalid user type");
