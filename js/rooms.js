@@ -67,18 +67,15 @@ async function displayFeedback(roomId) {
     const feedbackContainer = document.createElement("div");
     feedbackContainer.className = "feedback-container";
     feedbackContainer.innerHTML = `
-      <h3>Reviews (${feedbackList.length})</h3>
+      <h3>التقييمات (${feedbackList.length})</h3>
       <div class="feedback-list">
-        ${
-          feedbackList.length > 0
+        ${feedbackList.length > 0
             ? feedbackList
                 .map(
                   (feedback) => `
             <div class="feedback-item">
               <div class="feedback-header">
-                <span class="feedback-user">${
-                  feedback.studentName || "Anonymous"
-                }</span>
+                <span class="feedback-user">${feedback.studentName || "مجهول"}</span>
                 <span class="feedback-rating ${feedback.rating.toLowerCase()}">
                   ${getRatingStars(feedback.rating)}
                 </span>
@@ -89,8 +86,7 @@ async function displayFeedback(roomId) {
           `
                 )
                 .join("")
-            : '<p class="no-feedback">No reviews yet. Be the first to review!</p>'
-        }
+            : '<p class="no-feedback">لا توجد تقييمات بعد. كن أول من يقيم!</p>'}
       </div>
     `;
 
@@ -267,19 +263,19 @@ document.addEventListener("DOMContentLoaded", async () => {
               }</p>
               <p class="room-price">${
                 room.priceForMonth
-              } EGP <span class="price-period">/month</span></p>
+              } جنيه <span class="price-period">/شهر</span></p>
               <div class="booking-status ${
                 room.status === "Available" ? "available" : "booked"
               }">
-                ${room.status}
+                ${room.status === "Available" ? "متاح" : "محجوز"}
               </div>
               <div class="room-actions">
                 <button class="btn-book" onclick="openBookingModal(${
                   room.id
-                })">Book</button>
+                })">حجز</button>
                 <button class="btn-view" onclick="viewRoomDetails(${
                   room.id
-                })">View Details</button>
+                })">تفاصيل</button>
               </div>
             </div>
           </div>
