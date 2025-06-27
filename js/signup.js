@@ -332,7 +332,7 @@ async function handleOwnerSubmit(e) {
     showLoading(true, "ownerForm");
     const result = await registerOwner(ownerData);
     showSuccess(result.message || "Registration successful!");
-    setTimeout(() => (window.location.href = "owner/loginowner.html"), 1500);
+    setTimeout(() => (window.location.href = "../owner/loginowner.html"), 1500);
   } catch (error) {
     let errorMessage = error.message;
     if (errorMessage.includes("Email") || errorMessage.includes("Password")) {
