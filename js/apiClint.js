@@ -1,28 +1,30 @@
 const baseURL = "https://easyrentapi0.runasp.net";
 
+const JSON_HEADERS = {
+  "Content-Type": "application/json",
+  Accept: "application/json",
+};
+
 async function _get(urlPath) {
   const response = await fetch(`${baseURL}${urlPath}`, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      accept: "*/*",
-    },
+    headers: JSON_HEADERS,
   });
+
+  if (!response.ok) throw new Error(`GET failed: ${response.status}`);
   return await response.json();
 }
 
 async function _post(urlPath, data) {
   const response = await fetch(`${baseURL}${urlPath}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "*/*",
-    },
+    headers: JSON_HEADERS,
     body: JSON.stringify(data),
   });
 
-  const text = await response.text();
+  if (!response.ok) throw new Error(`POST failed: ${response.status}`);
 
+  const text = await response.text();
   try {
     return JSON.parse(text);
   } catch {
@@ -33,30 +35,28 @@ async function _post(urlPath, data) {
 async function _put(urlPath, data) {
   const response = await fetch(`${baseURL}${urlPath}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: JSON_HEADERS,
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    console.error("API Error:", error);
-    throw new Error("Something went wrong!");
-  }
-
+  if (!response.ok) throw new Error(`PUT failed: ${response.status}`);
   return await response.json();
 }
 
-async function _delete(urlPath, data) {
+async function _delete(urlPath) {
   const response = await fetch(`${baseURL}${urlPath}`, {
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+    headers: JSON_HEADERS,
   });
+
+  if (!response.ok) throw new Error(`DELETE failed: ${response.status}`);
   return await response.json();
 }
 
 export { _get, _post, _put, _delete };
+export const axiosClient = {
+  get: _get,
+  post: _post,
+  put: _put,
+  delete: _delete,
+};
