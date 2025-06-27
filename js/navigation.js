@@ -35,18 +35,30 @@ export function updateNavigation() {
     );
 
     // إخفاء روابط تسجيل الدخول والتسجيل وإضافة العقار عند تسجيل الدخول
-    if (loginLink)
+    if (loginLink) {
       loginLink.parentElement.style.display = isLoggedIn ? "none" : "block";
-    if (signupLink)
+    }
+    if (signupLink) {
       signupLink.parentElement.style.display = isLoggedIn ? "none" : "block";
-    if (addPropertyLink)
-      addPropertyLink.parentElement.style.display = isLoggedIn
-        ? "none"
-        : "block";
+    }
+    if (addPropertyLink) {
+      addPropertyLink.parentElement.style.display = isLoggedIn ? "none" : "block";
+    }
 
     // إظهار زر تسجيل الخروج فقط عند تسجيل الدخول
-    if (logoutLink)
+    if (logoutLink) {
       logoutLink.parentElement.style.display = isLoggedIn ? "block" : "none";
+      // تحديث نص الزر وأيقونته
+      if (isLoggedIn) {
+        logoutLink.innerHTML = '<i class="ri-logout-box-r-line"></i> تسجيل الخروج';
+      }
+    } else if (isLoggedIn) {
+      // إنشاء زر تسجيل الخروج إذا لم يكن موجوداً
+      const logoutItem = document.createElement('li');
+      logoutItem.className = 'user-menu-item';
+      logoutItem.innerHTML = '<a href="#" onclick="handleLogout(); return false;"><i class="ri-logout-box-r-line"></i> تسجيل الخروج</a>';
+      navLinks.appendChild(logoutItem);
+    }
   }
 }
 
