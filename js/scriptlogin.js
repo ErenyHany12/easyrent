@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       switch (userType) {
         case "owner":
           endpoint = "/Owner/login";
-          redirectUrl = "../owner/createrooms.html";
+          redirectUrl = "owner/createrooms.html";
           break;
         case "admin":
           endpoint = "/Admin/login";
