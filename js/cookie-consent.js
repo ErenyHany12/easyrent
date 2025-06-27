@@ -19,15 +19,18 @@ export function initCookieConsent() {
 
   document.body.appendChild(consentBox);
 
-  document.getElementById("acceptCookies").addEventListener("click", () => {
-    localStorage.setItem("cookieConsent", "accepted");
-    consentBox.style.transform = "translateY(100%)";
+  const hideCookieConsent = (status) => {
+    localStorage.setItem("cookieConsent", status);
+    consentBox.style.opacity = "0";
+    consentBox.style.transform = "translate(-50%, 100%)";
     setTimeout(() => consentBox.remove(), 500);
+  };
+
+  document.getElementById("acceptCookies").addEventListener("click", () => {
+    hideCookieConsent("accepted");
   });
 
   document.getElementById("rejectCookies").addEventListener("click", () => {
-    localStorage.setItem("cookieConsent", "rejected");
-    consentBox.style.transform = "translateY(100%)";
-    setTimeout(() => consentBox.remove(), 500);
+    hideCookieConsent("rejected");
   });
 }

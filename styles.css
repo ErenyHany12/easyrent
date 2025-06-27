@@ -213,6 +213,12 @@ body {
   font-size: 1rem;
   color: var(--text-dark);
   max-width: 800px;
+  line-height: 1.6;
+}
+
+.cookie-text p {
+  margin-top: 0.5rem;
+  opacity: 0.9;
 }
 
 .cookie-buttons {
@@ -222,10 +228,18 @@ body {
 
 .cookie-btn {
   padding: 0.75rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cookie-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .accept-cookies {
@@ -431,10 +445,7 @@ nav {
 .header {
   padding-block: 5rem;
   min-height: 100vh;
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.7),
-      rgba(0, 0, 0, 0.7)
-    ),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url("images/home-2404521_1920.jpg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -2066,6 +2077,18 @@ select {
     width: 100%;
     padding: 0.8rem;
   }
+  .section__header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+  }
+  .intro__video {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .intro;
 }
 
 /* Base styles for mobile responsiveness */
