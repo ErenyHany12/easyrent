@@ -28,7 +28,7 @@ async function getAllUniversities() {
       throw new Error(errorText || "Failed to fetch universities");
     }
     const data = await response.json();
-    return data.$values || data; // Handle both response formats
+    return data.$values || data;
   } catch (error) {
     console.error("University API Error:", error);
     showError("Failed to load universities. Please try again later.");
@@ -44,7 +44,7 @@ async function getAllColleges() {
       throw new Error(errorText || "Failed to fetch colleges");
     }
     const data = await response.json();
-    return data.$values || data; // Handle both response formats
+    return data.$values || data;
   } catch (error) {
     console.error("College API Error:", error);
     showError("Failed to load colleges. Please try again later.");
@@ -55,7 +55,6 @@ async function getAllColleges() {
 async function registerStudent(studentData) {
   try {
     console.log("Submitting student data:", studentData);
-
     const response = await fetch(`${API_BASE_URL}/Student/register`, {
       method: "POST",
       headers: {
@@ -64,12 +63,10 @@ async function registerStudent(studentData) {
       body: JSON.stringify(studentData),
     });
 
-    // First get the response as text
     const responseText = await response.text();
 
     if (!response.ok) {
-      // Try to parse as JSON, if fails use the raw text
-      let errorMessage;
+      let errorMessage = "Registration failed";
       try {
         const errorData = JSON.parse(responseText);
         errorMessage = errorData.message || errorData.title || responseText;
@@ -79,7 +76,6 @@ async function registerStudent(studentData) {
       throw new Error(errorMessage);
     }
 
-    // Try to parse successful response as JSON
     try {
       return JSON.parse(responseText);
     } catch {
@@ -94,7 +90,6 @@ async function registerStudent(studentData) {
 async function registerOwner(ownerData) {
   try {
     console.log("Submitting owner data:", ownerData);
-
     const response = await fetch(`${API_BASE_URL}/Owner/register`, {
       method: "POST",
       headers: {
@@ -116,8 +111,11 @@ async function registerOwner(ownerData) {
       throw new Error(errorMessage);
     }
 
-    // If successful, parse JSON response
-    return JSON.parse(responseText);
+    try {
+      return JSON.parse(responseText);
+    } catch {
+      return { message: "Registration successful!" };
+    }
   } catch (error) {
     console.error("Owner Registration Error:", error);
     throw error;
@@ -129,12 +127,10 @@ async function registerOwner(ownerData) {
 async function loadUniversitiesAndColleges() {
   try {
     showLoading(true);
-
     const [universities, colleges] = await Promise.all([
       getAllUniversities(),
       getAllColleges(),
     ]);
-
     allColleges = colleges;
     populateUniversityDropdown(universities);
   } catch (error) {
@@ -148,7 +144,6 @@ async function loadUniversitiesAndColleges() {
 function populateUniversityDropdown(universities) {
   uniSelect.innerHTML =
     '<option disabled selected value="">Select university</option>';
-
   universities.forEach((university) => {
     const option = document.createElement("option");
     option.value = university.id;
@@ -162,7 +157,6 @@ function initSignUpEvents() {
   uniSelect.addEventListener("change", function () {
     const selectedUniId = parseInt(this.value);
     const universityName = this.options[this.selectedIndex].text;
-
     collegeSelect.innerHTML =
       "<option disabled selected>Select faculty</option>";
 
@@ -271,22 +265,16 @@ async function handleStudentSubmit(e) {
   try {
     showLoading(true, "studentForm");
     const result = await registerStudent(studentData);
-
-    // Handle successful registration
     showSuccess(result.message || "Registration successful!");
     setTimeout(() => (window.location.href = "/login"), 1500);
   } catch (error) {
-    // Handle different error formats
     let errorMessage = error.message;
-
-    // If the error contains specific API messages
     if (errorMessage.includes("Email") || errorMessage.includes("Password")) {
       errorMessage = errorMessage
         .replace("Validation failed:", "")
         .replace(/--/g, "\n• ")
         .trim();
     }
-
     showError(
       errorMessage || "Registration failed. Please check your details."
     );
@@ -298,7 +286,7 @@ async function handleStudentSubmit(e) {
 async function handleOwnerSubmit(e) {
   e.preventDefault();
 
-  // Similar validation as student form
+  // Validate required fields
   const requiredFields = [
     "ownerLegalName",
     "ownerEmail",
@@ -317,12 +305,14 @@ async function handleOwnerSubmit(e) {
     }
   }
 
+  // Validate email format
   const email = document.getElementById("ownerEmail").value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showError("Please enter a valid email address");
     return;
   }
 
+  // Validate password length
   const password = document.getElementById("ownerPassword").value;
   if (password.length < 8) {
     showError("Password must be at least 8 characters");
@@ -341,14 +331,19 @@ async function handleOwnerSubmit(e) {
   try {
     showLoading(true, "ownerForm");
     const result = await registerOwner(ownerData);
-    showSuccess(result.message || "Owner account created successfully!");
-    setTimeout(() => (window.location.href = "/login"), 1500);
+    showSuccess(result.message || "Registration successful!");
+    setTimeout(() => (window.location.href = "owner/loginowner.html"), 1500);
   } catch (error) {
-    const errorMsg = error.message
-      .replace("Validation failed:", "")
-      .replace(/--/g, "\n• ")
-      .trim();
-    showError(errorMsg || "Registration failed. Please check your details.");
+    let errorMessage = error.message;
+    if (errorMessage.includes("Email") || errorMessage.includes("Password")) {
+      errorMessage = errorMessage
+        .replace("Validation failed:", "")
+        .replace(/--/g, "\n• ")
+        .trim();
+    }
+    showError(
+      errorMessage || "Registration failed. Please check your details."
+    );
   } finally {
     showLoading(false, "ownerForm");
   }
@@ -388,7 +383,6 @@ function showLoading(isLoading, formId = null) {
   if (formId) {
     const form = document.getElementById(formId);
     const submitBtn = form.querySelector('button[type="submit"]');
-
     if (submitBtn) {
       submitBtn.disabled = isLoading;
       const originalText =
