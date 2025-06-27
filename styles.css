@@ -18,16 +18,16 @@
 
 /* Dark mode variables */
 [data-theme="dark"] {
-  --primary-color: #a8d4f4;
-  --secondary-color: #e1f0fa;
-  --text-dark: #f8fafc;
-  --text-light: #e1f0fa;
-  --extra-light: #1a2634;
-  --white: #1e2a3a;
-  --gray-bg: #1e2a3a;
-  --border-color: #a8d4f4;
-  --card-bg: #1e2a3a;
-  --body-bg: #0f1a2c;
+  --primary-color: #000000;
+  --secondary-color: #000080;
+  --text-dark: #ffffff;
+  --text-light: #e1e1e1;
+  --extra-light: #1a1a1a;
+  --white: #000000;
+  --gray-bg: #000000;
+  --border-color: #000080;
+  --card-bg: #000000;
+  --body-bg: #000000;
 }
 
 /* Smooth transitions for theme switching */

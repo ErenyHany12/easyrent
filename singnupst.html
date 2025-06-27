@@ -3,1310 +3,222 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Registration - EasyRent</title>
+    <title>Sign Up</title>
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-      :root {
-        --primary-color: #82c9ff;
-        --primary-dark: #5aa8e6;
-        --secondary-color: #1a193f;
-        --text-dark: #333;
-        --text-light: #666;
-        --background: #f5f7fb;
-        --white: #ffffff;
-        --border-color: #e1e5ee;
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        --border-radius: 12px;
-        --logo-gradient-1: #7c4dff;
-        --logo-gradient-2: #448aff;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
-
-      body {
-        background: var(--background);
-        color: var(--text-dark);
-        line-height: 1.5;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      main {
-        flex: 1;
-        padding: 40px 20px;
-      }
-
-      .container {
-        max-width: 480px;
-        margin: 0 auto;
-        background: var(--white);
-        border-radius: var(--border-radius);
-        padding: 32px;
-        box-shadow: var(--shadow);
-      }
-
-      .welcome-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 32px;
-      }
-
-      .title {
-        text-align: center;
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 0;
-        color: #1a1a1a;
-        display: flex;
-        align-items: center;
-      }
-
-      .welcome-logo {
-        position: relative;
-        width: 35px;
-        height: 35px;
-        background: linear-gradient(135deg, #82c9ff 0%, #5aa8e6 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 2px;
-      }
-
-      .welcome-logo::before {
-        content: "";
-        position: absolute;
-        width: 25px;
-        height: 25px;
-        background: #fff;
-        border-radius: 50%;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-      }
-
-      .welcome-logo::after {
-        content: "ER";
-        position: relative;
-        font-size: 14px;
-        font-weight: 700;
-        background: linear-gradient(45deg, #82c9ff, #5aa8e6);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .welcome-logo:hover::before {
-        transform: scale(0.8);
-      }
-
-      .form-group {
-        margin-bottom: 24px;
-      }
-
-      .form-group label {
-        display: block;
-        font-size: 15px;
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: var(--text-dark);
-      }
-
-      .form-group input,
-      .input-group select {
-        width: 100%;
-        padding: 14px 16px;
-        font-size: 15px;
-        border: 2px solid var(--border-color);
-        border-radius: 8px;
-        background: var(--white);
-        transition: all 0.3s ease;
-      }
-
-      .form-group input:focus,
-      .input-group select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 4px rgba(130, 201, 255, 0.1);
-        outline: none;
-      }
-
-      .input-group {
-        margin-bottom: 24px;
-      }
-
-      .input-group select {
-        appearance: none;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        background-size: 16px;
-        padding-right: 48px;
-      }
-
-      .sub-note {
-        font-size: 13px;
-        color: var(--text-light);
-        margin-top: 8px;
-        line-height: 1.5;
-      }
-
-      .password-container {
-        position: relative;
-        margin-bottom: 24px;
-      }
-
-      .password-container label {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--text-dark);
-        margin-bottom: 8px;
-      }
-
-      .password-container label .label-content {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .password-container label .label-content i {
-        color: var(--primary-color);
-        font-size: 16px;
-      }
-
-      .password-container label .show-password {
-        background: none;
-        border: none;
-        color: var(--text-light);
-        font-size: 16px;
-        cursor: pointer;
-        padding: 4px 8px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.3s ease;
-        border-radius: 6px;
-      }
-
-      .password-container label .show-password:hover {
-        background: var(--background);
-        color: var(--primary-color);
-      }
-
-      .password-container label .show-password:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px var(--primary-color);
-      }
-
-      .password-container label .show-password span {
-        font-size: 13px;
-        font-weight: 400;
-      }
-
-      .password-container input {
-        width: 100%;
-        padding: 14px 16px;
-        font-size: 15px;
-        border: 2px solid var(--border-color);
-        border-radius: 8px;
-        background: var(--white);
-        transition: all 0.3s ease;
-      }
-
-      .password-container input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 4px rgba(130, 201, 255, 0.1);
-        outline: none;
-      }
-
-      .password-strength-meter {
-        margin-top: 12px;
-        background: var(--background);
-        padding: 12px;
-        border-radius: 8px;
-      }
-
-      .strength-bars {
-        display: flex;
-        gap: 4px;
-        margin-bottom: 8px;
-      }
-
-      .strength-bar {
-        flex: 1;
-        height: 4px;
-        background: #e0e0e0;
-        border-radius: 2px;
-        transition: all 0.3s ease;
-      }
-
-      .strength-bar.weak {
-        background: #ff4d4d;
-      }
-
-      .strength-bar.medium {
-        background: #ffd700;
-      }
-
-      .strength-bar.strong {
-        background: #00c853;
-      }
-
-      .password-strength-text {
-        font-size: 13px;
-        color: var(--text-light);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .password-strength-text i {
-        font-size: 14px;
-      }
-
-      .password-strength-text.weak i {
-        color: #ff4d4d;
-      }
-
-      .password-strength-text.medium i {
-        color: #ffd700;
-      }
-
-      .password-strength-text.strong i {
-        color: #00c853;
-      }
-
-      .password-requirements {
-        margin-top: 12px;
-        padding: 12px;
-        background: var(--background);
-        border-radius: 8px;
-        font-size: 13px;
-        color: var(--text-light);
-      }
-
-      .password-requirements ul {
-        list-style: none;
-        margin: 8px 0 0;
-        padding: 0;
-      }
-
-      .password-requirements li {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 4px;
-      }
-
-      .password-requirements li i {
-        font-size: 14px;
-        color: var(--text-light);
-      }
-
-      .password-requirements li.valid i {
-        color: #00c853;
-      }
-
-      .password-suggestion-container {
-        margin-top: 16px;
-        display: flex;
-        gap: 8px;
-        position: relative;
-      }
-
-      .password-suggestion-input {
-        flex: 1;
-        padding: 14px 16px;
-        border: 2px solid var(--border-color);
-        border-radius: 8px;
-        font-size: 14px;
-        background: var(--background);
-        color: var(--text-dark);
-        transition: all 0.3s ease;
-      }
-
-      .password-suggestion-input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 4px rgba(130, 201, 255, 0.1);
-        outline: none;
-      }
-
-      .generate-btn {
-        background: var(--primary-color);
-        color: var(--white);
-        border: none;
-        border-radius: 8px;
-        padding: 14px 24px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .generate-btn i {
-        font-size: 16px;
-      }
-
-      .generate-btn:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-      }
-
-      .btn-submit {
-        width: 100%;
-        background: var(--primary-color);
-        color: var(--white);
-        border: none;
-        border-radius: 8px;
-        padding: 16px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 32px;
-      }
-
-      .btn-submit:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-      }
-
-      .footer {
-        position: relative;
-        background: linear-gradient(135deg, #1a193f 0%, #242263 100%);
-        padding: 120px 0 0;
-        margin-top: 100px;
-        color: #fff;
-      }
-
-      .footer::before {
-        content: "";
-        position: absolute;
-        top: -70px;
-        left: 0;
-        width: 100%;
-        height: 70px;
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDEwMCI+PHBhdGggZmlsbD0iIzFhMTkzZiIgZmlsbC1vcGFjaXR5PSIxIiBkPSJNMCwwIEMxNTAsMjAgNDUwLDgwIDcyMCw4MCBDOTkwLDgwIDEyOTAsMjAgMTQ0MCwwIEwxNDQwLDEwMCBMMCwxMDAgWiI+PC9wYXRoPjwvc3ZnPg==");
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-
-      .footer__container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: grid;
-        grid-template-columns: 2fr 1fr 1.5fr;
-        gap: 60px;
-      }
-
-      .footer__col {
-        position: relative;
-      }
-
-      .footer__col::after {
-        content: "";
-        position: absolute;
-        right: -30px;
-        top: 0;
-        height: 100%;
-        width: 1px;
-        background: linear-gradient(
-          to bottom,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-      }
-
-      .footer__col:last-child::after {
-        display: none;
-      }
-
-      .footer__logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 32px;
-      }
-
-      .footer__logo-icon {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color) 0%,
-          #5aa8e6 100%
-        );
-        color: var(--white);
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 24px;
-        box-shadow: 0 4px 15px rgba(130, 201, 255, 0.3);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .footer__logo-icon::before {
-        content: "ER";
-        background: linear-gradient(45deg, var(--primary-color), #5aa8e6);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-size: 26px;
-        font-weight: 800;
-        font-family: "Poppins", sans-serif;
-      }
-
-      .footer__logo-text {
-        font-size: 24px;
-        font-weight: 800;
-        color: var(--primary-color);
-        line-height: 1.2;
-        letter-spacing: -0.5px;
-      }
-
-      .footer__description {
-        color: rgba(255, 255, 255, 0.7);
-        line-height: 1.8;
-        margin-bottom: 32px;
-        font-size: 15px;
-      }
-
-      .footer__socials {
-        list-style: none;
-        display: flex;
-        gap: 16px;
-      }
-
-      .footer__social-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        font-size: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .footer__social-link:hover {
-        background: var(--logo-gradient-1);
-        transform: translateY(-3px);
-      }
-
-      .footer__col h4 {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 24px;
-        position: relative;
-        padding-bottom: 12px;
-      }
-
-      .footer__col h4::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 40px;
-        height: 2px;
-        background: var(--logo-gradient-1);
-      }
-
-      .footer__links {
-        list-style: none;
-      }
-
-      .footer__links li {
-        margin-bottom: 16px;
-      }
-
-      .footer__links a {
-        color: rgba(255, 255, 255, 0.7);
-        text-decoration: none;
-        font-size: 15px;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .footer__links a:hover {
-        color: #fff;
-        transform: translateX(5px);
-      }
-
-      .footer__links a i {
-        font-size: 18px;
-        color: var(--logo-gradient-1);
-      }
-
-      .footer__contact-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .footer__contact-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        color: var(--logo-gradient-1);
-        flex-shrink: 0;
-      }
-
-      .footer__contact-info h5 {
-        color: #fff;
-        font-size: 16px;
-        margin-bottom: 4px;
-      }
-
-      .footer__contact-info p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 15px;
-        line-height: 1.6;
-      }
-
-      .footer__bar {
-        position: relative;
-        text-align: center;
-        padding: 25px 0;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 15px;
-        margin-top: 60px;
-      }
-
-      .footer__bar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        height: 1px;
-        background: linear-gradient(
-          to right,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-      }
-
-      @media (max-width: 992px) {
-        .footer__container {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .footer__col:first-child {
-          grid-column: 1 / -1;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .footer {
-          padding: 80px 0 0;
-        }
-
-        .footer__container {
-          grid-template-columns: 1fr;
-          gap: 40px;
-        }
-
-        .footer__col::after {
-          display: none;
-        }
-
-        .footer__col {
-          text-align: center;
-        }
-
-        .footer__col h4::after {
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .footer__logo {
-          justify-content: center;
-        }
-
-        .footer__socials {
-          justify-content: center;
-        }
-
-        .footer__contact-item {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-      }
-
-      .logo-icon {
-        background: linear-gradient(
-          135deg,
-          var(--logo-gradient-1) 0%,
-          var(--logo-gradient-2) 100%
-        );
-        color: var(--white);
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 24px;
-        box-shadow: 0 4px 15px rgba(124, 77, 255, 0.3);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .logo-icon:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(124, 77, 255, 0.4);
-      }
-
-      .logo-icon::before {
-        content: "ER";
-        background: linear-gradient(45deg, #ffffff, #e0e7ff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-size: 26px;
-        font-weight: 800;
-      }
-
-      .logo-text {
-        font-size: 24px;
-        font-weight: 800;
-        background: linear-gradient(
-          45deg,
-          var(--logo-gradient-1),
-          var(--logo-gradient-2)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        line-height: 1.2;
-        letter-spacing: -0.5px;
-      }
-
-      @media (max-width: 768px) {
-        .logo-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-        }
-
-        .logo-icon::before {
-          font-size: 22px;
-        }
-
-        .logo-text {
-          font-size: 20px;
-        }
-      }
-    </style>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="./styles/signup.css" rel="stylesheet" />
   </head>
   <body>
-    <main>
-      <div class="container">
-        <div class="welcome-header">
-          <div class="welcome-logo"></div>
-          <h1 class="title">Create Student Account</h1>
+    <main class="container">
+      <div class="form-container">
+        <!-- Header -->
+        <div class="header">
+          <img src="images/icon.png" alt="Logo" class="logo" />
+          <h1 class="title">Create Account</h1>
         </div>
-        <form id="signupForm">
+
+        <!-- Role Selection -->
+        <div class="role-selection">
+          <button id="selectStudent" class="role-btn student-btn">
+            <i class="ri-graduation-cap-line role-icon student-icon"></i>
+            <p class="role-text student-text">Student</p>
+          </button>
+          <button id="selectOwner" class="role-btn owner-btn">
+            <i class="ri-building-line role-icon owner-icon"></i>
+            <p class="role-text owner-text">Owner</p>
+          </button>
+        </div>
+
+        <!-- Student Form -->
+        <form id="studentForm" class="form hidden">
           <div class="form-group">
-            <label for="firstNameID">Full Name</label>
+            <label for="studentFullName" class="form-label">Full Name</label>
             <input
               type="text"
-              id="firstNameID"
+              id="studentFullName"
+              class="form-input"
               placeholder="Enter your full name"
               required
             />
-            <div class="sub-note">
-              Make sure this matches the name on your government ID.
-            </div>
-          </div>
-
-          <div class="input-group">
-            <label for="universityId">University</label>
-            <select id="universityId" required>
-              <option value="" disabled selected>Select your university</option>
-            </select>
-          </div>
-
-          <div class="input-group">
-            <label for="collegeId">Faculty</label>
-            <select id="collegeId" required>
-              <option value="" disabled selected>Select your faculty</option>
-            </select>
           </div>
 
           <div class="form-group">
-            <label for="address">Address</label>
-            <input
-              type="text"
-              id="address"
-              placeholder="Enter your full address"
-              required
-            />
-            <div class="sub-note">
-              Please provide your current address as it appears on your ID.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              placeholder="Enter your phone number"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
+            <label for="studentEmail" class="form-label">Email</label>
             <input
               type="email"
-              id="email"
-              placeholder="Enter your email address"
+              id="studentEmail"
+              class="form-input"
+              placeholder="Enter your email"
               required
             />
           </div>
 
-          <div class="password-container">
-            <label for="signup-password">
-              <div class="label-content">
-                <i class="fas fa-lock"></i>
-                Password
-              </div>
-              <button
-                type="button"
-                class="show-password"
-                id="togglePasswordBtn"
-                aria-label="Toggle password visibility"
-              >
-                <i class="fas fa-eye-slash"></i>
-                <span>Show</span>
-              </button>
-            </label>
+          <div class="form-group">
+            <label for="studentUserName" class="form-label">Username</label>
+            <input
+              type="text"
+              id="studentUserName"
+              class="form-input"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
+
+          <div class="form-group password-group">
+            <label for="studentPassword" class="form-label">Password</label>
             <input
               type="password"
-              id="signup-password"
+              id="studentPassword"
+              class="form-input password-input"
               placeholder="Create a strong password"
               required
             />
-
-            <div class="password-strength-meter">
-              <div class="strength-bars">
-                <div class="strength-bar" id="strength-bar-1"></div>
-                <div class="strength-bar" id="strength-bar-2"></div>
-                <div class="strength-bar" id="strength-bar-3"></div>
-                <div class="strength-bar" id="strength-bar-4"></div>
-              </div>
-              <div class="sub-note" id="password-strength-text"></div>
-            </div>
-
-            <div class="password-suggestion-container">
-              <input
-                type="text"
-                id="password-suggestion"
-                class="password-suggestion-input"
-                placeholder="Click generate for a strong password"
-                readonly
-              />
-              <button type="button" id="generate-password" class="generate-btn">
-                Generate
-              </button>
-            </div>
-            <div class="sub-note">
-              <i class="fas fa-lightbulb" style="color: #ffc107"></i>
-              Strong passwords contain uppercase, lowercase, numbers and special
-              characters
-            </div>
+            <button
+              type="button"
+              id="toggleStudentPassword"
+              class="password-toggle"
+            >
+              <i class="fas fa-eye-slash"></i>
+            </button>
+            <button
+              type="button"
+              id="generateStudentPass"
+              class="password-generate"
+            >
+              Generate
+            </button>
           </div>
 
-          <button type="submit" class="btn-submit">Create Account</button>
+          <div class="form-group">
+            <label for="studentPhone" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              id="studentPhone"
+              class="form-input"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="studentAddress" class="form-label">Address</label>
+            <input
+              type="text"
+              id="studentAddress"
+              class="form-input"
+              placeholder="Enter your address"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="universityId" class="form-label">University</label>
+            <select id="universityId" class="form-input" required>
+              <option disabled selected value="">Select your university</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="collegeId" class="form-label">Faculty</label>
+            <select id="collegeId" class="form-input" required>
+              <option disabled selected value="">Select your faculty</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-btn student-submit">
+            Create Student Account
+          </button>
+        </form>
+
+        <!-- Owner Form -->
+        <form id="ownerForm" class="form hidden">
+          <div class="form-group">
+            <label for="ownerLegalName" class="form-label">Legal Name</label>
+            <input
+              type="text"
+              id="ownerLegalName"
+              class="form-input"
+              placeholder="Full Name on ID"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="ownerUsername" class="form-label">Username</label>
+            <input
+              type="text"
+              id="ownerUsername"
+              class="form-input"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="ownerEmail" class="form-label">Email</label>
+            <input
+              type="email"
+              id="ownerEmail"
+              class="form-input"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="ownerPhone" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              id="ownerPhone"
+              class="form-input"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="ownerLocation" class="form-label">Location</label>
+            <input
+              type="text"
+              id="ownerLocation"
+              class="form-input"
+              placeholder="City, Area"
+              required
+            />
+          </div>
+          <div class="form-group password-group">
+            <label for="ownerPassword" class="form-label">Password</label>
+            <input
+              type="password"
+              id="ownerPassword"
+              class="form-input password-input"
+              placeholder="Enter your password"
+              required
+            />
+            <button
+              type="button"
+              id="toggleOwnerPassword"
+              class="password-toggle"
+            >
+              <i class="fas fa-eye-slash"></i>
+            </button>
+            <button
+              type="button"
+              id="generateOwnerPass"
+              class="password-generate"
+            >
+              Generate
+            </button>
+          </div>
+          <button type="submit" class="submit-btn owner-submit">
+            Create Owner Account
+          </button>
         </form>
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="footer__container">
-        <div class="footer__col">
-          <div class="footer__logo">
-            <div class="logo-icon"></div>
-            <span class="logo-text">EASY<br />RENT</span>
-          </div>
-          <p class="footer__description">
-            Easy rent is dedicated to simplifying the process of finding student
-            accommodations. We enable seamless connections between students and
-            property owners, making your housing search experience smooth and
-            efficient.
-          </p>
-          <ul class="footer__socials">
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-facebook-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-instagram-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-linkedin-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-twitter-fill"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <h4>Quick Links</h4>
-          <ul class="footer__links">
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Online Booking
-              </a>
-            </li>
-            <li>
-              <a href="privacypolicy.html">
-                <i class="ri-arrow-right-s-line"></i>
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Special Offers
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Room Customization
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Customer Support
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <h4>Contact Info</h4>
-          <ul class="footer__links">
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-phone-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Phone Number</h5>
-                <p>+20 1224170048</p>
-              </div>
-            </li>
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-mail-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Email Address</h5>
-                <p>info@easyrent15.com</p>
-              </div>
-            </li>
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-map-pin-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Office Location</h5>
-                <p>Minya st. Taha-Hessien</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer__bar">
-        Copyright © 2025 EasyRent. All rights reserved.
-      </div>
-    </footer>
-    <script type="module">
-      import { initNavigation, updateNavigation } from './js/navigation.js';
-      window.updateNavigation = updateNavigation;
-      
-      // Initialize navigation
-      document.addEventListener('DOMContentLoaded', () => {
-        initNavigation();
-        updateNavigation();
-      });
-
-      // Main signup form handling
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("signupForm");
-        const uniSelect = document.getElementById("universityId");
-        const collegeSelect = document.getElementById("collegeId");
-        const passwordInput = document.getElementById("signup-password");
-        const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-        const generateBtn = document.getElementById("generate-password");
-        const passwordSuggestion = document.getElementById(
-          "password-suggestion"
-        );
-        const strengthBars = [
-          document.getElementById("strength-bar-1"),
-          document.getElementById("strength-bar-2"),
-          document.getElementById("strength-bar-3"),
-          document.getElementById("strength-bar-4"),
-        ];
-        const strengthText = document.getElementById("password-strength-text");
-
-        // بيانات الجامعات في المنيا
-        const MINYA_UNIVERSITIES = [
-          { id: 1, name: "جامعة المنيا" },
-          { id: 2, name: "جامعة الأزهر بالمنيا" },
-          { id: 3, name: "الأكاديمية العربية للعلوم والتكنولوجيا بالمنيا" },
-        ];
-
-        // بيانات الكليات في المنيا (مرتبطة بمعرف الجامعة)
-        const MINYA_COLLEGES = {
-          1: [
-            // جامعة المنيا
-            { id: 101, name: "كلية الهندسة" },
-            { id: 102, name: "كلية الطب" },
-            { id: 103, name: "كلية العلوم" },
-            { id: 104, name: "كلية التربية" },
-            { id: 105, name: "كلية الآداب" },
-            { id: 106, name: "كلية التجارة" },
-            { id: 107, name: "كلية التمريض" },
-            { id: 108, name: "كلية الحاسبات والمعلومات" },
-          ],
-          2: [
-            // جامعة الأزهر بالمنيا
-            { id: 201, name: "كلية الشريعة والقانون" },
-            { id: 202, name: "كلية الدراسات الإسلامية والعربية" },
-            { id: 203, name: "كلية التربية" },
-            { id: 204, name: "كلية العلوم" },
-          ],
-          3: [
-            // الأكاديمية العربية
-            { id: 301, name: "كلية الحاسبات ونظم المعلومات" },
-            { id: 302, name: "كلية الإدارة ونظم المعلومات" },
-            { id: 303, name: "كلية اللغات والترجمة" },
-          ],
-        };
-
-        // تحميل جامعات المنيا
-        function loadMinyaUniversities() {
-          uniSelect.innerHTML =
-            '<option value="" disabled selected>اختر جامعتك</option>';
-          MINYA_UNIVERSITIES.forEach((u) => {
-            const option = document.createElement("option");
-            option.value = u.id;
-            option.textContent = u.name;
-            uniSelect.appendChild(option);
-          });
-        }
-
-        // تحميل كليات المنيا حسب الجامعة المختارة
-        function loadMinyaColleges(universityId) {
-          if (!universityId) {
-            collegeSelect.innerHTML =
-              '<option value="" disabled selected>اختر الجامعة أولاً</option>';
-            return;
-          }
-
-          const colleges = MINYA_COLLEGES[universityId] || [];
-
-          collegeSelect.innerHTML =
-            '<option value="" disabled selected>اختر كليتك</option>';
-
-          if (colleges.length === 0) {
-            collegeSelect.innerHTML +=
-              '<option value="" disabled>لا توجد كليات متاحة لهذه الجامعة</option>';
-            return;
-          }
-
-          colleges.forEach((c) => {
-            const option = document.createElement("option");
-            option.value = c.id;
-            option.textContent = c.name;
-            collegeSelect.appendChild(option);
-          });
-        }
-
-        // تغيير الجامعة المختارة
-        uniSelect.addEventListener("change", (e) => {
-          loadMinyaColleges(e.target.value);
-          saveFormData();
-        });
-
-        // التحقق من قوة كلمة المرور
-        function checkPasswordStrength() {
-          const val = passwordInput.value;
-          let strength = 0;
-
-          if (val.length >= 8) strength++;
-          if (/[A-Z]/.test(val)) strength++;
-          if (/[0-9]/.test(val)) strength++;
-          if (/[^A-Za-z0-9]/.test(val)) strength++;
-
-          strengthBars.forEach((bar, i) => {
-            bar.style.background =
-              i < strength ? getStrengthColor(strength) : "#e0e0e0";
-          });
-
-          const texts = ["ضعيفة جداً", "ضعيفة", "متوسطة", "قوية", "قوية جداً"];
-          strengthText.textContent = texts[strength];
-          strengthText.className = "";
-          strengthText.classList.add(getStrengthClass(strength));
-        }
-
-        function getStrengthColor(strength) {
-          switch (strength) {
-            case 1:
-              return "#ff4d4d";
-            case 2:
-              return "#ffa500";
-            case 3:
-              return "#4CAF50";
-            case 4:
-              return "#008000";
-            default:
-              return "#e0e0e0";
-          }
-        }
-
-        function getStrengthClass(strength) {
-          switch (strength) {
-            case 1:
-              return "weak";
-            case 2:
-              return "medium";
-            case 3:
-              return "strong";
-            case 4:
-              return "very-strong";
-            default:
-              return "";
-          }
-        }
-
-        // حفظ بيانات النموذج
-        function saveFormData() {
-          const data = {
-            name: document.getElementById("firstNameID").value.trim(),
-            email: document.getElementById("email").value.trim(),
-            phone: document.getElementById("phone").value.trim(),
-            address: document.getElementById("address").value.trim(),
-            password: passwordInput.value,
-            universityId: uniSelect.value,
-            collegeId: collegeSelect.value,
-          };
-          localStorage.setItem("signupFormData", JSON.stringify(data));
-        }
-
-        // تحميل البيانات المحفوظة
-        function loadFormData() {
-          const saved = localStorage.getItem("signupFormData");
-          if (!saved) return;
-
-          try {
-            const data = JSON.parse(saved);
-            if (data.name)
-              document.getElementById("firstNameID").value = data.name;
-            if (data.email) document.getElementById("email").value = data.email;
-            if (data.phone) document.getElementById("phone").value = data.phone;
-            if (data.address)
-              document.getElementById("address").value = data.address;
-            if (data.password) {
-              passwordInput.value = data.password;
-              checkPasswordStrength();
-            }
-            if (data.universityId) {
-              uniSelect.value = data.universityId;
-              loadMinyaColleges(data.universityId);
-              if (data.collegeId) collegeSelect.value = data.collegeId;
-            }
-          } catch (err) {
-            console.error("Error loading saved data:", err);
-          }
-        }
-
-        // توليد كلمة مرور
-        generateBtn.addEventListener("click", () => {
-          const chars =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-          let password = "";
-          for (let i = 0; i < 12; i++) {
-            password += chars.charAt(Math.floor(Math.random() * chars.length));
-          }
-          passwordSuggestion.value = password;
-          passwordInput.value = password;
-          checkPasswordStrength();
-          saveFormData();
-        });
-
-        // إظهار/إخفاء كلمة المرور
-        togglePasswordBtn.addEventListener("click", () => {
-          const type = passwordInput.type === "password" ? "text" : "password";
-          passwordInput.type = type;
-          togglePasswordBtn.innerHTML = `
-          <i class="fas fa-eye${type === "password" ? "-slash" : ""}"></i>
-          <span>${type === "password" ? "إظهار" : "إخفاء"}</span>
-        `;
-        });
-
-        // حفظ البيانات عند التعديل
-        document.querySelectorAll("input, select").forEach((el) => {
-          el.addEventListener("input", () => {
-            saveFormData();
-            if (el === passwordInput) checkPasswordStrength();
-          });
-        });
-
-        // إرسال النموذج
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          const submitBtn = form.querySelector('button[type="submit"]');
-          submitBtn.disabled = true;
-          submitBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> جاري التسجيل...';
-
-          try {
-            const payload = {
-              name: document.getElementById("firstNameID").value.trim(),
-              email: document.getElementById("email").value.trim(),
-              userName: document.getElementById("email").value.trim(),
-              password: passwordInput.value,
-              phoneNumber: document.getElementById("phone").value.trim(),
-              address: document.getElementById("address").value.trim(),
-              universityId: parseInt(uniSelect.value),
-              collegeId: parseInt(collegeSelect.value),
-            };
-
-            // التحقق من البيانات
-            if (!payload.name || !payload.email || !payload.password) {
-              throw new Error("الرجاء ملء جميع الحقول المطلوبة");
-            }
-
-            if (!payload.email.includes("@") || !payload.email.includes(".")) {
-              throw new Error("الرجاء إدخال بريد إلكتروني صحيح");
-            }
-
-            if (isNaN(payload.universityId)) {
-              throw new Error("الرجاء اختيار جامعة صحيحة");
-            }
-
-            if (isNaN(payload.collegeId)) {
-              throw new Error("الرجاء اختيار كلية صحيحة");
-            }
-
-            if (payload.password.length < 8) {
-              throw new Error("يجب أن تكون كلمة المرور 8 أحرف على الأقل");
-            }
-
-            const strongRegex =
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/;
-            if (!strongRegex.test(payload.password)) {
-              throw new Error(
-                "يجب أن تحتوي كلمة المرور على حرف كبير وحرف صغير ورقم ورمز خاص"
-              );
-            }
-
-            // Send registration request to server
-            const response = await fetch('https://easyrentapi0.runasp.net/api/Student/register', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-              throw new Error('فشل التسجيل. الرجاء المحاولة مرة أخرى.');
-            }
-
-            const data = await response.json();
-            
-            // Store token and update navigation
-            localStorage.setItem('token', data.token);
-            if (typeof updateNavigation === 'function') {
-              updateNavigation();
-            }
-
-            localStorage.removeItem("signupFormData");
-            alert("تم التسجيل بنجاح! سيتم توجيهك للصفحة الرئيسية");
-            window.location.href = "index.html";
-          } catch (err) {
-            alert(err.message);
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = "إنشاء حساب";
-          }
-        });
-
-        // تهيئة الصفحة
-        function init() {
-          loadMinyaUniversities();
-          loadFormData();
-        }
-
-        init();
-      });
-    </script>
+    <script src="./js/signup.js"></script>
   </body>
 </html>

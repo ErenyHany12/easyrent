@@ -1,0 +1,296 @@
+/* Base Styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+/* Dark Mode */
+.dark body {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+/* Container Styles */
+.container {
+  min-height: 100vh;
+  padding: 4rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .container {
+  background-color: #111827;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 42rem;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .form-container {
+  background-color: #1f2937;
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+}
+
+.logo {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  color: #111827;
+}
+
+.dark .title {
+  color: white;
+}
+
+/* Role Selection */
+.role-selection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.role-btn {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.student-btn {
+  background-color: #e0e7ff;
+}
+
+.dark .student-btn {
+  background-color: #3730a3;
+}
+
+.student-btn:hover {
+  background-color: #c7d2fe;
+}
+
+.dark .student-btn:hover {
+  background-color: #312e81;
+}
+
+.owner-btn {
+  background-color: #fef3c7;
+}
+
+.dark .owner-btn {
+  background-color: #92400e;
+}
+
+.owner-btn:hover {
+  background-color: #fde68a;
+}
+
+.dark .owner-btn:hover {
+  background-color: #7c2d12;
+}
+
+.role-icon {
+  font-size: 1.5rem;
+}
+
+.student-icon {
+  color: #4f46e5;
+}
+
+.dark .student-icon {
+  color: #a5b4fc;
+}
+
+.owner-icon {
+  color: #d97706;
+}
+
+.dark .owner-icon {
+  color: #f59e0b;
+}
+
+.role-text {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.student-text {
+  color: #4f46e5;
+}
+
+.dark .student-text {
+  color: white;
+}
+
+.owner-text {
+  color: #92400e;
+}
+
+.dark .owner-text {
+  color: white;
+}
+
+/* Form Styles */
+.form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.dark .form-label {
+  color: #d1d5db;
+}
+
+.form-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.dark .form-input {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.dark .form-input:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3);
+}
+
+/* Password Group */
+.password-group {
+  position: relative;
+}
+
+.password-input {
+  padding-right: 6rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.password-generate {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #4f46e5;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.dark .password-generate {
+  color: #818cf8;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.student-submit {
+  background-color: #4f46e5;
+}
+
+.student-submit:hover {
+  background-color: #4338ca;
+}
+
+.owner-submit {
+  background-color: #d97706;
+}
+
+.owner-submit:hover {
+  background-color: #b45309;
+}
+
+.dark .owner-submit {
+  background-color: #f59e0b;
+}
+
+.dark .owner-submit:hover {
+  background-color: #d97706;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none;
+}
+
+.ring-2 {
+  box-shadow: 0 0 0 2px;
+}
+
+.ring-indigo-500 {
+  box-shadow: 0 0 0 2px #4f46e5;
+}
+
+.ring-yellow-500 {
+  box-shadow: 0 0 0 2px #d97706;
+}
+.ring-offset-2 {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
