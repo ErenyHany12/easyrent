@@ -3,1062 +3,154 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log in - EasyRent</title>
+    <title>Login - EasyRent</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
     />
-    <link rel="stylesheet" href="./room-shapes.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-      }
-
-      body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        background: #f5f7fb;
-        color: #333;
-      }
-
-      main {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px 20px;
-      }
-
-      .container {
-        width: 100%;
-        max-width: 440px;
-        background: #fff;
-        border-radius: 16px;
-        padding: 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      }
-
-      .title {
-        text-align: center;
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 0;
-        color: #1a1a1a;
-        display: flex;
-        align-items: center;
-      }
-
-      .input-group {
-        margin-bottom: 24px;
-      }
-
-      .input-group label {
-        display: block;
-        font-size: 15px;
-        margin-bottom: 8px;
-        color: #333;
-        font-weight: 500;
-      }
-
-      select,
-      input[type="text"],
-      input[type="tel"],
-      input[type="password"],
-      input[type="email"] {
-        width: 100%;
-        padding: 14px 16px;
-        font-size: 15px;
-        border: 2px solid #e1e5ee;
-        border-radius: 8px;
-        outline: none;
-        transition: all 0.3s ease;
-        background: #f8fafd;
-      }
-
-      select:focus,
-      input:focus {
-        border-color: #82c9ff;
-        box-shadow: 0 0 0 4px rgba(130, 201, 255, 0.1);
-        background: #fff;
-      }
-
-      .note {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 24px;
-        line-height: 1.5;
-        padding: 12px;
-        background: #f8fafd;
-        border-radius: 8px;
-        border-left: 4px solid #82c9ff;
-      }
-
-      .password-wrapper {
-        position: relative;
-      }
-
-      #password {
-        padding-right: 100px;
-      }
-
-      #togglePasswordBtn {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #82c9ff;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: color 0.3s ease;
-      }
-
-      #togglePasswordBtn:hover {
-        color: #5aa8e6;
-      }
-
-      .btn-primary {
-        width: 100%;
-        background: #82c9ff;
-        color: #fff;
-        border: none;
-        font-weight: 600;
-        border-radius: 8px;
-        padding: 16px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-bottom: 16px;
-      }
-
-      .btn-primary:hover {
-        background: #5aa8e6;
-        transform: translateY(-2px);
-      }
-
-      .separator {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin: 24px 0;
-      }
-
-      .separator .line {
-        flex: 1;
-        height: 1px;
-        background-color: #e1e5ee;
-      }
-
-      .separator .separator-text {
-        padding: 0 16px;
-        color: #666;
-        font-size: 14px;
-        font-weight: 500;
-      }
-
-      .social-buttons {
-        display: grid;
-        gap: 12px;
-        margin-bottom: 24px;
-      }
-
-      .btn-social {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        width: 100%;
-        padding: 14px;
-        border: 2px solid #e1e5ee;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .success-message {
-        display: none;
-        background-color: #4caf50;
-        color: white;
-        padding: 16px;
-        border-radius: 8px;
-        text-align: center;
-        margin-bottom: 20px;
-        animation: slideIn 0.5s ease-out;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateY(-20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      .btn-social:hover {
-        transform: translateY(-2px);
-      }
-
-      .btn-google {
-        background: red;
-        color: #f8f7f7;
-      }
-
-      .btn-google:hover {
-        background: rgb(250, 73, 73);
-        border-color: #82c9ff;
-      }
-
-      .btn-apple {
-        background: #000;
-        color: #fff;
-        border-color: #000;
-      }
-
-      .btn-apple:hover {
-        background: #333;
-        border-color: #333;
-      }
-
-      .btn-facebook {
-        background: #4267b2;
-        color: #fff;
-        border-color: #4267b2;
-      }
-
-      .btn-facebook:hover {
-        background: #365899;
-        border-color: #365899;
-      }
-
-      .forgot-password {
-        text-align: center;
-        margin-bottom: 24px;
-      }
-
-      .forgot-password a {
-        color: #82c9ff;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 500;
-        transition: color 0.3s ease;
-      }
-
-      .forgot-password a:hover {
-        color: #5aa8e6;
-        text-decoration: underline;
-      }
-
-      .remember-me {
-        display: flex;
-        align-items: center;
-        margin-bottom: 16px;
-      }
-
-      .remember-me input {
-        margin-right: 8px;
-      }
-
-      .footer {
-        position: relative;
-        background: linear-gradient(135deg, #1a193f 0%, #242263 100%);
-        padding: 120px 0 0;
-        margin-top: 100px;
-        color: #fff;
-      }
-
-      .footer::before {
-        content: "";
-        position: absolute;
-        top: -70px;
-        left: 0;
-        width: 100%;
-        height: 70px;
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDEwMCI+PHBhdGggZmlsbD0iIzFhMTkzZiIgZmlsbC1vcGFjaXR5PSIxIiBkPSJNMCwwIEMxNTAsMjAgNDUwLDgwIDcyMCw4MCBDOTkwLDgwIDEyOTAsMjAgMTQ0MCwwIEwxNDQwLDEwMCBMMCwxMDAgWiI+PC9wYXRoPjwvc3ZnPg==");
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
-
-      .footer__container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: grid;
-        grid-template-columns: 2fr 1fr 1.5fr;
-        gap: 60px;
-      }
-
-      .footer__col {
-        position: relative;
-      }
-
-      .footer__col::after {
-        content: "";
-        position: absolute;
-        right: -30px;
-        top: 0;
-        height: 100%;
-        width: 1px;
-        background: linear-gradient(
-          to bottom,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-      }
-
-      .footer__col:last-child::after {
-        display: none;
-      }
-
-      .footer__logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 32px;
-      }
-
-      .footer__description {
-        color: rgba(255, 255, 255, 0.7);
-        line-height: 1.8;
-        margin-bottom: 32px;
-        font-size: 15px;
-      }
-
-      .footer__socials {
-        list-style: none;
-        display: flex;
-        gap: 16px;
-      }
-
-      .footer__social-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        font-size: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .footer__social-link:hover {
-        background: var(--logo-gradient-1);
-        transform: translateY(-3px);
-      }
-
-      .footer__col h4 {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 24px;
-        position: relative;
-        padding-bottom: 12px;
-      }
-
-      .footer__col h4::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 40px;
-        height: 2px;
-        background: var(--logo-gradient-1);
-      }
-
-      .footer__links {
-        list-style: none;
-      }
-
-      .footer__links li {
-        margin-bottom: 16px;
-      }
-
-      .footer__links a {
-        color: rgba(255, 255, 255, 0.7);
-        text-decoration: none;
-        font-size: 15px;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .footer__links a:hover {
-        color: #fff;
-        transform: translateX(5px);
-      }
-
-      .footer__links a i {
-        font-size: 18px;
-        color: var(--logo-gradient-1);
-      }
-
-      .footer__contact-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .footer__contact-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        color: var(--logo-gradient-1);
-        flex-shrink: 0;
-      }
-
-      .footer__contact-info h5 {
-        color: #fff;
-        font-size: 16px;
-        margin-bottom: 4px;
-      }
-
-      .footer__contact-info p {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 15px;
-        line-height: 1.6;
-      }
-
-      .footer__bar {
-        position: relative;
-        text-align: center;
-        padding: 25px 0;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 15px;
-        margin-top: 60px;
-      }
-
-      .footer__bar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        height: 1px;
-        background: linear-gradient(
-          to right,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-      }
-
-      @media (max-width: 992px) {
-        .footer__container {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .footer__col:first-child {
-          grid-column: 1 / -1;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .footer {
-          padding: 80px 0 0;
-        }
-
-        .footer__container {
-          grid-template-columns: 1fr;
-          gap: 40px;
-        }
-
-        .footer__col::after {
-          display: none;
-        }
-
-        .footer__col {
-          text-align: center;
-        }
-
-        .footer__col h4::after {
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .footer__logo {
-          justify-content: center;
-        }
-
-        .footer__socials {
-          justify-content: center;
-        }
-
-        .footer__contact-item {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-      }
-
-      @media (max-width: 480px) {
-        main {
-          padding: 16px;
-        }
-
-        .container {
-          padding: 20px;
-          border-radius: 12px;
-        }
-
-        .title {
-          font-size: 22px;
-        }
-
-        select,
-        input[type="text"],
-        input[type="tel"],
-        input[type="password"],
-        input[type="email"] {
-          font-size: 14px;
-          padding: 12px 14px;
-        }
-
-        .btn-primary,
-        .btn-social {
-          padding: 12px;
-          font-size: 14px;
-        }
-
-        .footer {
-          padding: 40px 0 0;
-        }
-      }
-
-      :root {
-        --logo-gradient-1: #7c4dff;
-        --logo-gradient-2: #448aff;
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-      }
-
-      .logo-icon {
-        background: linear-gradient(
-          135deg,
-          var(--logo-gradient-1) 0%,
-          var(--logo-gradient-2) 100%
-        );
-        color: var(--white);
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        font-weight: bold;
-        font-size: 24px;
-        box-shadow: 0 4px 15px rgba(124, 77, 255, 0.3);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .logo-icon:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(124, 77, 255, 0.4);
-      }
-
-      .logo-icon::before {
-        content: "ER";
-        background: linear-gradient(45deg, #ffffff, #e0e7ff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-size: 26px;
-        font-weight: 800;
-      }
-
-      .logo-text {
-        font-size: 24px;
-        font-weight: 800;
-        background: linear-gradient(
-          45deg,
-          var(--logo-gradient-1),
-          var(--logo-gradient-2)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        line-height: 1.2;
-        letter-spacing: -0.5px;
-      }
-
-      @media (max-width: 768px) {
-        .logo-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-        }
-
-        .logo-icon::before {
-          font-size: 22px;
-        }
-
-        .logo-text {
-          font-size: 20px;
-        }
-      }
-
-      .welcome-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 32px;
-      }
-
-      .welcome-logo {
-        position: relative;
-        width: 35px;
-        height: 35px;
-        background: linear-gradient(135deg, #82c9ff 0%, #5aa8e6 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 2px;
-      }
-
-      .welcome-logo::before {
-        content: "";
-        position: absolute;
-        width: 25px;
-        height: 25px;
-        background: #fff;
-        border-radius: 50%;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-      }
-
-      .welcome-logo::after {
-        content: "ER";
-        position: relative;
-        font-size: 14px;
-        font-weight: 700;
-        background: linear-gradient(45deg, #82c9ff, #5aa8e6);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .welcome-logo:hover::before {
-        transform: scale(0.8);
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          box-shadow: 0 0 0 0 rgba(130, 201, 255, 0.4);
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/stylelogin.css" />
   </head>
   <body>
-    <main>
-      <div class="container">
-        <form id="loginForm">
-          <div id="successMessage" class="success-message">
-            <i class="fas fa-check-circle" style="margin-right: 8px"></i>
-            Successfully logged in! Welcome to EasyRent.
-          </div>
-          <div class="welcome-header">
-            <div class="welcome-logo"></div>
-            <h1 class="title">Welcome Back</h1>
+    <main class="login-container">
+      <div class="login-card">
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+          <i class="fas fa-check-circle"></i>
+          Successfully logged in! Welcome to EasyRent.
+        </div>
+
+        <!-- Header -->
+        <div class="login-header">
+          <img src="./images/icon.png" alt="Logo" class="login-logo" />
+          <h1>Welcome Back</h1>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form">
+          <!-- Role Selection -->
+          <div class="form-group">
+            <label class="form-label">Login As</label>
+            <div class="role-selection">
+              <label class="role-option">
+                <input
+                  type="radio"
+                  name="userType"
+                  value="student"
+                  class="role-input"
+                  required
+                />
+                <i class="ri-graduation-cap-line"></i>
+                <span>Student</span>
+              </label>
+              <label class="role-option">
+                <input
+                  type="radio"
+                  name="userType"
+                  value="admin"
+                  class="role-input"
+                />
+                <i class="ri-shield-user-line"></i>
+                <span>Admin</span>
+              </label>
+              <label class="role-option">
+                <input
+                  type="radio"
+                  name="userType"
+                  value="owner"
+                  class="role-input"
+                />
+                <i class="ri-home-gear-line"></i>
+                <span>Owner</span>
+              </label>
+            </div>
           </div>
 
-          <div class="input-group">
-            <label for="phone">Phone number or email</label>
+          <!-- Phone or Email -->
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone number or email</label>
             <input
               type="text"
               id="phone"
               placeholder="Enter your phone number or email"
               required
+              class="form-input"
             />
           </div>
 
-          <div class="input-group">
-            <label for="password">Password</label>
-            <div class="password-wrapper">
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="password-input-container">
               <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
                 required
+                class="form-input"
               />
-              <button type="button" id="togglePasswordBtn">Show</button>
+              <button
+                type="button"
+                id="togglePasswordBtn"
+                class="password-toggle"
+              >
+                Show
+              </button>
             </div>
           </div>
 
+          <!-- Remember Me -->
           <div class="remember-me">
             <input type="checkbox" id="rememberMe" />
             <label for="rememberMe">Remember me</label>
           </div>
 
-          <button type="submit" class="btn-primary">Sign In</button>
+          <!-- Submit -->
+          <button type="submit" class="submit-button">Sign In</button>
 
+          <!-- Forgot Password -->
           <div class="forgot-password">
             <a href="forgetpass.html">Forgot password?</a>
           </div>
 
+          <!-- Separator -->
           <div class="separator">
-            <div class="line"></div>
-            <span class="separator-text">or continue with</span>
-            <div class="line"></div>
+            <div class="separator-line"></div>
+            <span>or continue with</span>
+            <div class="separator-line"></div>
           </div>
 
+          <!-- Social Buttons -->
           <div class="social-buttons">
             <button
               type="button"
-              class="btn-social btn-google"
-              onclick="window.location.href='logingoogle.html'"
+              id="googleLoginBtn"
+              class="social-button google"
             >
-              <i class="fab fa-google"></i>
-              Continue with Google
+              <i class="fab fa-google"></i> Continue with Google
             </button>
             <button
               type="button"
-              class="btn-social btn-apple"
-              onclick="window.location.href='loginApple.html'"
+              id="appleLoginBtn"
+              class="social-button apple"
             >
-              <i class="fab fa-apple"></i>
-              Continue with Apple
+              <i class="fab fa-apple"></i> Continue with Apple
             </button>
             <button
               type="button"
-              class="btn-social btn-facebook"
-              onclick="window.location.href='face.html'"
+              id="facebookLoginBtn"
+              class="social-button facebook"
             >
-              <i class="fab fa-facebook-f"></i>
-              Continue with Facebook
+              <i class="fab fa-facebook-f"></i> Continue with Facebook
             </button>
           </div>
         </form>
       </div>
     </main>
 
-    <footer class="footer">
-      <div class="footer__container">
-        <div class="footer__col">
-          <div class="footer__logo">
-            <div class="logo-icon"></div>
-            <span class="logo-text">EASY<br />RENT</span>
-          </div>
-          <p class="footer__description">
-            Easy rent is dedicated to simplifying the process of finding student
-            accommodations. We enable seamless connections between students and
-            property owners, making your housing search experience smooth and
-            efficient.
-          </p>
-          <ul class="footer__socials">
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-facebook-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-instagram-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-linkedin-fill"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="footer__social-link">
-                <i class="ri-twitter-fill"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <h4>Quick Links</h4>
-          <ul class="footer__links">
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Online Booking
-              </a>
-            </li>
-            <li>
-              <a href="privacypolicy.html">
-                <i class="ri-arrow-right-s-line"></i>
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Special Offers
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Room Customization
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="ri-arrow-right-s-line"></i>
-                Customer Support
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="footer__col">
-          <h4>Contact Info</h4>
-          <ul class="footer__links">
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-phone-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Phone Number</h5>
-                <p>+20 1224170048</p>
-              </div>
-            </li>
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-mail-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Email Address</h5>
-                <p>easyrent15@gmail.com</p>
-              </div>
-            </li>
-            <li class="footer__contact-item">
-              <span class="footer__contact-icon">
-                <i class="ri-map-pin-fill"></i>
-              </span>
-              <div class="footer__contact-info">
-                <h5>Office Location</h5>
-                <p>Minya st. Taha-Hessien</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer__bar">
-        Copyright © 2025 EasyRent. All rights reserved.
-      </div>
-    </footer>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // API Configuration
-        const API_BASE_URL = "https://easyrentapi0.runasp.net";
-
-        // DOM Elements
-        const loginForm = document.getElementById("loginForm");
-        const emailPhoneInput = document.getElementById("phone");
-        const passwordInput = document.getElementById("password");
-        const togglePasswordBtn = document.getElementById("togglePasswordBtn");
-        const submitBtn = document.querySelector(".btn-primary");
-        const userTypeRadios = document.querySelectorAll(
-          'input[name="userType"]'
-        );
-
-        // Create error display element
-        const errorDiv = document.createElement("div");
-        errorDiv.className = "error-message";
-        loginForm.insertBefore(errorDiv, loginForm.firstChild);
-
-        // Add styles for error message and user type selector
-        const style = document.createElement("style");
-        style.textContent = `
-          .error-message {
-              color: #d32f2f;
-              background: #fde8e8;
-              padding: 12px;
-              border-radius: 8px;
-              margin-bottom: 20px;
-              display: none;
-              border-left: 4px solid #d32f2f;
-          }
-          .user-type-container {
-              display: flex;
-              gap: 15px;
-              margin-bottom: 20px;
-          }
-          .user-type-option {
-              flex: 1;
-              border: 2px solid #e1e5ee;
-              border-radius: 8px;
-              padding: 12px;
-              cursor: pointer;
-              transition: all 0.3s ease;
-              background: #f8fafd;
-          }
-          .user-type-option.selected {
-              border-color: #82c9ff;
-              background: #fff;
-              box-shadow: 0 0 0 2px rgba(130, 201, 255, 0.2);
-          }
-          .user-type-option input {
-              display: none;
-          }
-      `;
-        document.head.appendChild(style);
-
-        // Add user type selector if not present
-        if (!document.querySelector(".user-type-container")) {
-          const typeContainer = document.createElement("div");
-          typeContainer.className = "user-type-container";
-          typeContainer.innerHTML = `
-              <label class="user-type-option" onclick="selectUserType(this, 'student')">
-                  <input type="radio" name="userType" value="student" checked>
-                  <i class="fas fa-user-graduate"></i> Student
-              </label>
-              <label class="user-type-option" onclick="selectUserType(this, 'admin')">
-                  <input type="radio" name="userType" value="admin">
-                  <i class="fas fa-user-shield"></i> Admin
-              </label>
-          `;
-          loginForm.insertBefore(typeContainer, emailPhoneInput.parentElement);
-        }
-
-        // Password visibility toggle
-        togglePasswordBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const type = passwordInput.type === "password" ? "text" : "password";
-          passwordInput.type = type;
-          togglePasswordBtn.textContent = type === "password" ? "Show" : "Hide";
-        });
-
-        // Form submission
-        loginForm.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          errorDiv.style.display = "none";
-
-          // Get selected user type
-          const userType = document.querySelector(
-            'input[name="userType"]:checked'
-          ).value;
-          const credentials = {
-            emailOrPhone: emailPhoneInput.value.trim(),
-            password: passwordInput.value,
-          };
-
-          // Validate inputs
-          if (!credentials.emailOrPhone || !credentials.password) {
-            showError("Please fill in all fields");
-            return;
-          }
-
-          submitBtn.disabled = true;
-          submitBtn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-
-          try {
-            const endpoint = `/${userType}/login`;
-            console.log(
-              `Attempting ${userType} login at ${API_BASE_URL}${endpoint}`
-            );
-
-            const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify(credentials),
-            });
-
-            if (!response.ok) {
-              const errorData = await response.json().catch(() => ({}));
-              console.error("Login error:", errorData);
-
-              let errorMessage = "Login failed. Please check your credentials.";
-              if (response.status === 401) {
-                errorMessage = `Invalid ${userType} credentials`;
-              } else if (errorData.message) {
-                errorMessage = errorData.message;
-              }
-
-              throw new Error(errorMessage);
-            }
-
-            const data = await response.json();
-            console.log("Login successful:", data);
-
-            // Store authentication data
-            localStorage.setItem("userType", userType);
-            localStorage.setItem("authToken", data.token || data.accessToken);
-            localStorage.setItem("userData", JSON.stringify(data.user || data));
-
-            // Show success message
-            document.getElementById("successMessage").style.display = "block";
-
-            // Redirect based on user type
-            setTimeout(() => {
-              window.location.href =
-                userType === "admin"
-                  ? "./Admin/dashbordAdim.html"
-                  : "room2.html";
-            }, 1500);
-          } catch (error) {
-            console.error("Login error:", error);
-            showError(error.message);
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Sign In";
-          }
-        });
-
-        // Helper function to show error messages
-        function showError(message) {
-          errorDiv.textContent = message;
-          errorDiv.style.display = "block";
-          setTimeout(() => {
-            errorDiv.style.display = "none";
-          }, 5000);
-        }
-      });
-
-      // Function to handle user type selection
-      function selectUserType(element, type) {
-        document.querySelectorAll(".user-type-option").forEach((opt) => {
-          opt.classList.remove("selected");
-        });
-        element.classList.add("selected");
-        document.querySelector(`input[value="${type}"]`).checked = true;
-      }
-    </script>
+    <script src="./js/scriptlogin.js"></script>
   </body>
 </html>

@@ -89,6 +89,27 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("ScrollReveal library not loaded - animations disabled");
   }
 
+  // Back to Top Button Functionality
+  const backToTopButton = document.createElement('button');
+  backToTopButton.className = 'back-to-top';
+  backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  document.body.appendChild(backToTopButton);
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopButton.classList.add('visible');
+    } else {
+      backToTopButton.classList.remove('visible');
+    }
+  });
+
+  backToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
   // بيانات العقارات
   const properties = [
     {
