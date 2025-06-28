@@ -1041,6 +1041,141 @@
           width: 100%;
         }
       }
+
+      .admin-profile-icon {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        background: #fff2;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2c3e50;
+        font-size: 1.7rem;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .admin-profile-icon:hover {
+        background: #fff4;
+        transform: scale(1.08);
+      }
+
+      .profile-sidebar-slide {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 350px;
+        max-width: 95vw;
+        height: 100vh;
+        background: #f4f8fb;
+        box-shadow: -2px 0 24px rgba(44, 62, 80, 0.12);
+        border-radius: 18px 0 0 18px;
+        z-index: 2001;
+        padding: 32px 24px 24px 24px;
+        text-align: center;
+        transition: right 0.35s cubic-bezier(0.77, 0, 0.18, 1);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .profile-sidebar-slide.open {
+        right: 0;
+      }
+      .profile-sidebar-overlay {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      .profile-sidebar-overlay.active {
+        display: block;
+      }
+      .close-profile {
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        font-size: 1.6rem;
+        color: #888;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .close-profile:hover {
+        color: #d62612;
+      }
+      .profile-pic {
+        width: 90px;
+        height: 90px;
+        background: #e0e7ef;
+        border-radius: 50%;
+        margin: 0 auto 16px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3.2rem;
+        color: #64bdf8;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+      }
+      .profile-info h2 {
+        margin: 0 0 6px 0;
+        font-size: 1.3rem;
+        color: #2c3e50;
+        font-weight: 700;
+      }
+      .profile-email {
+        color: #3b88fb;
+        font-size: 0.98rem;
+        text-decoration: none;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .profile-details {
+        margin: 18px 0 20px 0;
+        text-align: left;
+        font-size: 1rem;
+        color: #34495e;
+      }
+      .profile-details p {
+        margin: 7px 0;
+      }
+      .btn-logout {
+        background: #d93826;
+        color: #fff;
+        border: none;
+        border-radius: 7px;
+        padding: 10px 0;
+        width: 100%;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+      }
+      .btn-logout i {
+        margin-left: 6px;
+      }
+      .btn-logout:hover {
+        background: #c0392b;
+      }
+      @media (max-width: 600px) {
+        .profile-sidebar-slide {
+          width: 98vw;
+          padding: 18px 6px 24px 6px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1084,14 +1219,7 @@
               <h1>Dashboard Overview</h1>
             </div>
             <div class="user-menu">
-              <div class="notification-icon" data-tooltip="Notifications">
-                <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
-              </div>
-              <div class="user-profile">
-                <img src="https://via.placeholder.com/36" alt="User Profile" />
-                <span class="user-name">Admin</span>
-              </div>
+              <div class="user-profile"></div>
             </div>
           </div>
 
@@ -1468,6 +1596,61 @@
       </div>
     </div>
 
+    <a href="#" class="admin-profile-icon">
+      <i class="fas fa-user-shield"></i>
+    </a>
+
+    <!-- Admin Profile Sidebar -->
+    <div id="adminProfileSidebar" class="profile-sidebar-slide">
+      <span class="close-profile" onclick="closeAdminProfileSidebar()"
+        >&times;</span
+      >
+      <div class="profile-pic">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <div class="profile-info">
+        <h2 id="adminProfileName">Admin Name</h2>
+        <a href="#" id="adminProfileEmail" class="profile-email"
+          >marnon@email.com</a
+        >
+        <div class="profile-details">
+          <p>
+            <strong>Role:</strong>
+            <span id="adminProfileRole">Administrator</span>
+          </p>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="adminLogout()">
+        <i class="fas fa-sign-out-alt"></i> LOGOUT
+      </button>
+    </div>
+    <div
+      id="adminProfileSidebarOverlay"
+      class="profile-sidebar-overlay"
+      onclick="closeAdminProfileSidebar()"
+    ></div>
+
     <script defer type="module" src="./adminScript.js"></script>
+    <script>
+      document
+        .querySelector(".admin-profile-icon")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          document.getElementById("adminProfileSidebar").classList.add("open");
+          document
+            .getElementById("adminProfileSidebarOverlay")
+            .classList.add("active");
+        });
+      function closeAdminProfileSidebar() {
+        document.getElementById("adminProfileSidebar").classList.remove("open");
+        document
+          .getElementById("adminProfileSidebarOverlay")
+          .classList.remove("active");
+      }
+      function adminLogout() {
+        // ضع هنا كود تسجيل الخروج الفعلي
+        window.location.href = "../index.html";
+      }
+    </script>
   </body>
 </html>

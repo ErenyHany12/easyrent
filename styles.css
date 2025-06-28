@@ -2209,7 +2209,6 @@ select {
     font-size: 1.2rem;
     font-weight: 500;
   }
-  .intro;
 }
 
 /* Base styles for mobile responsiveness */
@@ -2499,5 +2498,261 @@ body {
 
   .filter-group select:hover {
     border-color: var(--secondary-color);
+  }
+}
+
+/* General Styles */
+.room__card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.room__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Section */
+.room__image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.room__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.room__card:hover .room__image img {
+  transform: scale(1.05);
+}
+
+.room__price {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.room__price h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.room__price p {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* Details Section */
+.room__details {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.room__details h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.3rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.room__location {
+  margin: 0 0 16px 0;
+  color: #4a5568;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.room__location i {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+/* Features Grid */
+.room__features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.room__features span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.room__features i {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  color: #4299e1;
+}
+
+/* Unit Details Section */
+.unit-full-details {
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.unit-full-details h5 {
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.unit-full-details div {
+  font-size: 0.9rem;
+}
+
+.unit-full-details .flex {
+  padding: 4px 0;
+}
+
+.text-gray-600 {
+  color: #4a5568;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+/* Amenities */
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bg-blue-100 {
+  background-color: #ebf8ff;
+}
+
+.text-blue-800 {
+  color: #2b6cb0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.view-details {
+  background-color: #4299e1;
+  color: white;
+}
+
+.view-details:hover {
+  background-color: #3182ce;
+}
+
+.btn-secondary {
+  background-color: #edf2f7;
+  color: #2d3748;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+}
+
+.btn i {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.skeleton-image {
+  background: #e2e8f0;
+  height: 220px;
+}
+
+.skeleton-line {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .room__features {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .unit-full-details .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .room__image {
+    height: 180px;
+  }
+
+  .room__features {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .room__features span {
+    font-size: 0.8rem;
+  }
+
+  .room__features i {
+    font-size: 1.2rem;
   }
 }
