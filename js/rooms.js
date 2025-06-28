@@ -69,13 +69,16 @@ async function displayFeedback(roomId) {
     feedbackContainer.innerHTML = `
       <h3>التقييمات (${feedbackList.length})</h3>
       <div class="feedback-list">
-        ${feedbackList.length > 0
+        ${
+          feedbackList.length > 0
             ? feedbackList
                 .map(
                   (feedback) => `
             <div class="feedback-item">
               <div class="feedback-header">
-                <span class="feedback-user">${feedback.studentName || "مجهول"}</span>
+                <span class="feedback-user">${
+                  feedback.studentName || "مجهول"
+                }</span>
                 <span class="feedback-rating ${feedback.rating.toLowerCase()}">
                   ${getRatingStars(feedback.rating)}
                 </span>
@@ -86,7 +89,8 @@ async function displayFeedback(roomId) {
           `
                 )
                 .join("")
-            : '<p class="no-feedback">لا توجد تقييمات بعد. كن أول من يقيم!</p>'}
+            : '<p class="no-feedback">لا توجد تقييمات بعد. كن أول من يقيم!</p>'
+        }
       </div>
     `;
 

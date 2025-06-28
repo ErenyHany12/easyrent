@@ -5,6 +5,318 @@ let bookings = [];
 let students = [];
 let currentStudentId = null;
 
+// ====================== Student Management ======================
+const studentAPI = {
+  baseUrl: "https://easyrentapi0.runasp.net/api/Student",
+
+  // Fetch all students
+  getAllStudents: async () => {
+    try {
+      const response = await fetch(`${studentAPI.baseUrl}/all-students`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch students");
+      const data = await response.json();
+      return data?.$values || [];
+    } catch (error) {
+      console.error("Error fetching students:", error);
+      throw error;
+    }
+  },
+
+  // Get single student by ID
+  getStudentById: async (id) => {
+    try {
+      const response = await fetch(`${studentAPI.baseUrl}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to fetch student");
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching student:", error);
+      throw error;
+    }
+  },
+
+  // Delete student
+  deleteStudent: async (id) => {
+    try {
+      const response = await fetch(`${studentAPI.baseUrl}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (!response.ok) throw new Error("Failed to delete student");
+      return true;
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      throw error;
+    }
+  },
+
+  // Search students
+  searchStudents: async (query) => {
+    try {
+      const response = await fetch(
+        `${studentAPI.baseUrl}/search?q=${encodeURIComponent(query)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      if (!response.ok) throw new Error("Failed to search students");
+      const data = await response.json();
+      return data?.$values || [];
+    } catch (error) {
+      console.error("Error searching students:", error);
+      throw error;
+    }
+  },
+};
+
+// Student Management UI Functions
+const studentUI = {
+  // Render students list
+  renderStudents: (students) => {
+    const container = document.getElementById("studentsTable");
+    if (!students || students.length === 0) {
+      container.innerHTML = `
+        <div class="no-data">
+          <i class="material-icons">info</i>
+          No students found
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = students
+      .map(
+        (student) => `
+      <div class="student-card" data-student-id="${student.id}">
+        <div class="card-header">
+          <h3>${student.username || student.email || "Unnamed Student"}</h3>
+          <span class="status status-${
+            student.status?.toLowerCase() || "active"
+          }">
+            ${student.status || "Active"}
+          </span>
+        </div>
+        <div class="card-details">
+          <span><i class="fas fa-envelope"></i> ${
+            student.email || "No email"
+          }</span>
+          <span><i class="fas fa-phone"></i> ${
+            student.phone || "No phone"
+          }</span>
+          <span><i class="fas fa-map-marker-alt"></i> ${
+            student.address || "No address"
+          }</span>
+          <span><i class="fas fa-university"></i> ${
+            student.university || "No university"
+          }</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-primary btn-sm view-btn" data-student-id="${
+            student.id
+          }">
+            <i class="fas fa-eye"></i> View
+          </button>
+          <button class="btn btn-danger btn-sm delete-btn" data-student-id="${
+            student.id
+          }">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+
+    // Update stats
+    studentUI.updateStudentStats(students);
+  },
+
+  // Update student statistics
+  updateStudentStats: (students) => {
+    document.getElementById("totalStudentsCount").textContent = students.length;
+    document.getElementById("activeStudentsCount").textContent =
+      students.filter(
+        (s) => !s.status || s.status.toLowerCase() === "active"
+      ).length;
+
+    document.querySelectorAll(".stat-change").forEach((el) => {
+      el.innerHTML = `<i class="fas fa-check"></i> Updated`;
+    });
+  },
+
+  // Show student details in modal
+  showStudentDetails: (student) => {
+    document.getElementById("studentDetailsUsername").textContent =
+      student.username || "N/A";
+    document.getElementById("studentDetailsEmail").textContent =
+      student.email || "N/A";
+    document.getElementById("studentDetailsPhone").textContent =
+      student.phone || "N/A";
+    document.getElementById("studentDetailsAddress").textContent =
+      student.address || "N/A";
+    document.getElementById("studentDetailsUniversity").textContent =
+      student.university || "N/A";
+    document.getElementById("studentDetailsCollege").textContent =
+      student.college || "N/A";
+
+    // Set current student ID for actions
+    document.getElementById("deleteStudentBtn").dataset.studentId = student.id;
+
+    // Show modal
+    document.getElementById("studentDetailsModal").classList.add("show");
+  },
+
+  // Show loading state
+  showLoading: (elementId, message = "Loading...") => {
+    const container = document.getElementById(elementId);
+    if (container) {
+      container.innerHTML = `
+        <div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i> ${message}</div>
+      `;
+    }
+  },
+
+  // Show error message
+  showError: (elementId, message) => {
+    const container = document.getElementById(elementId);
+    if (container) {
+      container.innerHTML = `
+        <div class="no-data">
+          <i class="material-icons">error</i>
+          ${message}
+        </div>
+      `;
+    }
+  },
+};
+
+// Student Event Handlers
+const studentHandlers = {
+  // Initialize student section
+  init: () => {
+    // Load students when section is shown
+    document
+      .querySelector('.nav-item[data-target="students"]')
+      ?.addEventListener("click", () => {
+        studentHandlers.loadStudents();
+      });
+
+    // Search functionality
+    document.getElementById("studentSearch")?.addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      if (query.length > 2) {
+        studentHandlers.searchStudents(query);
+      } else if (query.length === 0) {
+        studentHandlers.loadStudents();
+      }
+    });
+
+    // Delete student button
+    document
+      .getElementById("deleteStudentBtn")
+      ?.addEventListener("click", async () => {
+        const studentId =
+          document.getElementById("deleteStudentBtn").dataset.studentId;
+        if (studentId) {
+          await studentHandlers.deleteStudent(studentId);
+        }
+      });
+
+    // Event delegation for student cards
+    document.getElementById("studentsTable")?.addEventListener("click", (e) => {
+      const viewBtn = e.target.closest(".view-btn");
+      const deleteBtn = e.target.closest(".delete-btn");
+
+      if (viewBtn) {
+        const studentId = viewBtn.dataset.studentId;
+        studentHandlers.viewStudent(studentId);
+      } else if (deleteBtn) {
+        const studentId = deleteBtn.dataset.studentId;
+        studentHandlers.confirmDeleteStudent(studentId);
+      }
+    });
+
+    // Load students if section is active
+    if (document.getElementById("students")?.classList.contains("active")) {
+      studentHandlers.loadStudents();
+    }
+  },
+
+  // Load all students
+  loadStudents: async () => {
+    try {
+      studentUI.showLoading("studentsTable", "Loading students...");
+      const students = await studentAPI.getAllStudents();
+      studentUI.renderStudents(students);
+    } catch (error) {
+      studentUI.showError(
+        "studentsTable",
+        "Failed to load students. Please try again."
+      );
+      console.error("Error loading students:", error);
+    }
+  },
+
+  // Search students
+  searchStudents: async (query) => {
+    try {
+      studentUI.showLoading("studentsTable", "Searching students...");
+      const students = await studentAPI.searchStudents(query);
+      studentUI.renderStudents(students);
+    } catch (error) {
+      studentUI.showError("studentsTable", "Search failed. Please try again.");
+      console.error("Error searching students:", error);
+    }
+  },
+
+  // View single student
+  viewStudent: async (studentId) => {
+    try {
+      const student = await studentAPI.getStudentById(studentId);
+      studentUI.showStudentDetails(student);
+    } catch (error) {
+      showNotification("Failed to load student details", false);
+      console.error("Error viewing student:", error);
+    }
+  },
+
+  // Confirm and delete student
+  confirmDeleteStudent: async (studentId) => {
+    if (
+      confirm(
+        "Are you sure you want to delete this student? This action cannot be undone."
+      )
+    ) {
+      await studentHandlers.deleteStudent(studentId);
+    }
+  },
+
+  // Delete student
+  deleteStudent: async (studentId) => {
+    try {
+      studentUI.showLoading("studentsTable", "Deleting student...");
+      await studentAPI.deleteStudent(studentId);
+      showNotification("Student deleted successfully", true);
+      closeModal();
+      await studentHandlers.loadStudents();
+    } catch (error) {
+      showNotification("Failed to delete student", false);
+      console.error("Error deleting student:", error);
+    }
+  },
+};
+
 // ====================== Fetch & Render ======================
 
 async function fetchUnits() {
@@ -43,6 +355,24 @@ async function fetchBookings() {
     console.error("Fetch bookings error:", error);
     showNoData("recentBookingsTable", "Error loading bookings.");
     showNotification(`Failed to load bookings: ${error.message}`, false);
+  }
+}
+
+async function fetchStudents() {
+  try {
+    showLoading("studentsTable", "Loading students...");
+    const data = await studentAPI.getAllStudents();
+    students = data;
+    if (students.length === 0) {
+      showNoData("studentsTable", "No students found");
+    } else {
+      studentUI.renderStudents(students);
+    }
+    showNotification("Students loaded successfully", true);
+  } catch (error) {
+    console.error("Fetch students error:", error);
+    showNoData("studentsTable", "Error loading students.");
+    showNotification(`Failed to load students: ${error.message}`, false);
   }
 }
 
@@ -516,9 +846,13 @@ document.getElementById("unitsTable").addEventListener("click", (e) => {
 // ====================== Init ======================
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize all handlers
+  studentHandlers.init();
+
   // Fetch initial data
   fetchUnits();
   fetchBookings();
+  fetchStudents();
 
   // Navigation
   document.querySelectorAll(".nav-item").forEach((item) => {
@@ -532,6 +866,15 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".content-section").forEach((section) => {
         section.classList.toggle("active", section.id === target);
       });
+
+      // Load data when switching to a section
+      if (target === "units") {
+        fetchUnits();
+      } else if (target === "bookings") {
+        fetchBookings();
+      } else if (target === "students") {
+        fetchStudents();
+      }
     });
   });
 
@@ -551,10 +894,13 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("show");
   });
 
-  // Refresh button
+  // Refresh buttons
   document
     .querySelector(".btn-primary[onclick='fetchUnits()']")
     .addEventListener("click", fetchUnits);
+  document
+    .querySelector(".btn-primary[onclick='fetchStudents()']")
+    .addEventListener("click", fetchStudents);
 
   // Modal close buttons
   document
@@ -571,3 +917,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize search
   initSearch();
 });
+
+// ====================== Export Functions for Testing ======================
+window.fetchStudents = fetchStudents;
+window.viewPhotoInLightbox = viewPhotoInLightbox;

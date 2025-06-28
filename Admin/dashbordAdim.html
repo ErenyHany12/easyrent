@@ -801,6 +801,246 @@
         display: inline-block;
         width: 80px;
       }
+      /* ===== Student Cards ===== */
+      .student-card {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border-left: 4px solid #4e73df;
+      }
+
+      .student-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .student-card .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .student-card .card-header h3 {
+        margin: 0;
+        color: #2e3a59;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .student-card .card-header .status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .student-card .card-header .status.Active {
+        background-color: #e6f7ee;
+        color: #28a745;
+      }
+
+      .student-card .card-header .status.Inactive {
+        background-color: #feeae9;
+        color: #dc3545;
+      }
+
+      .student-card .detail-row {
+        display: flex;
+        align-items: flex-start;
+        margin: 8px 0;
+        font-size: 0.9rem;
+      }
+
+      .student-card .detail-row i {
+        margin-right: 12px;
+        color: #4e73df;
+        width: 20px;
+        text-align: center;
+        font-size: 0.95rem;
+      }
+
+      .card-actions {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .card-actions .btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        border-radius: 4px;
+      }
+
+      /* ===== Student Details Modal ===== */
+      #studentDetailsModal .modal-content {
+        max-width: 700px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      #studentDetailsModal .modal-header {
+        background-color: #4e73df;
+        color: white;
+        padding: 15px 20px;
+      }
+
+      #studentDetailsModal .modal-header h2 {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+
+      #studentDetailsModal .modal-body {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      #studentDetailsModal .detail-item {
+        margin-bottom: 15px;
+      }
+
+      #studentDetailsModal .detail-item strong {
+        display: block;
+        color: #6c757d;
+        font-size: 0.8rem;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      #studentDetailsModal .detail-item span {
+        display: block;
+        color: #2e3a59;
+        font-size: 0.95rem;
+        font-weight: 500;
+        word-break: break-word;
+      }
+
+      #studentDetailsModal .modal-footer {
+        padding: 15px 20px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      /* ===== Responsive Adjustments ===== */
+      @media (max-width: 768px) {
+        #studentDetailsModal .modal-body {
+          grid-template-columns: 1fr;
+        }
+
+        .student-card {
+          padding: 15px;
+        }
+
+        .card-actions {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .card-actions .btn {
+          width: 100%;
+        }
+      }
+
+      /* Animation for modal */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal.show .modal-content {
+        animation: fadeIn 0.3s ease-out;
+      }
+      /* تنسيقات بطاقات الطلاب */
+      .student-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        margin-bottom: 15px;
+        border-left: 4px solid #4e73df;
+        transition: all 0.3s ease;
+      }
+
+      .student-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .student-card .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .student-card .card-header h3 {
+        margin: 0;
+        color: #2e3a59;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .student-card .card-details {
+        display: grid;
+        gap: 8px;
+        font-size: 14px;
+        color: #2e3a59;
+      }
+
+      .student-card .card-details span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .student-card .card-details i {
+        color: #4e73df;
+        width: 16px;
+        text-align: center;
+      }
+
+      .student-card .card-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        justify-content: flex-end;
+      }
+
+      /* التكيف مع الشاشات الصغيرة */
+      @media (max-width: 768px) {
+        .student-card {
+          padding: 12px;
+        }
+
+        .student-card .card-actions {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .student-card .card-actions .btn {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -990,88 +1230,95 @@
             <div class="page-title">
               <h1>Students Management</h1>
             </div>
-            <div class="actions">
+            <div class="controls">
               <input
                 type="text"
                 class="search-input"
+                id="studentSearch"
                 placeholder="Search students..."
               />
               <button class="btn btn-primary" onclick="fetchStudents()">
                 <i class="fas fa-sync-alt"></i> Refresh
               </button>
-              <button id="addStudentBtn" class="btn btn-success">
-                <i class="fas fa-plus"></i> Add Student
-              </button>
             </div>
           </div>
-          <div id="studentsTable" class="table-container">
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <h2>Total Students</h2>
+                <div class="stat-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="totalStudentsCount">0</div>
+              <div class="stat-change">
+                <i class="fas fa-sync-alt fa-spin"></i> Loading...
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <h2>Active Students</h2>
+                <div class="stat-icon">
+                  <i class="fas fa-user-check"></i>
+                </div>
+              </div>
+              <div class="stat-value" id="activeStudentsCount">0</div>
+              <div class="stat-change">
+                <i class="fas fa-sync-alt fa-spin"></i> Loading...
+              </div>
+            </div>
+          </div>
+
+          <div class="card-grid" id="studentsTable">
             <div class="no-data">
               <i class="material-icons">info</i>
-              Click refresh to load students
+              No students found. Click refresh to load data.
             </div>
           </div>
         </section>
 
         <!-- Student Details Modal -->
-        <div id="studentDetailsModal" class="modal">
+        <div class="modal" id="studentDetailsModal">
           <div class="modal-content">
-            <div class="modal-header">
-              <h2 id="studentModalName">Student Details</h2>
-              <button class="close-modal">&times;</button>
-            </div>
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <h2>Student Details</h2>
             <div class="modal-body">
-              <div class="student-info">
-                <p>
-                  <strong>Email:</strong> <span id="studentModalEmail"></span>
-                </p>
-                <p>
-                  <strong>Phone:</strong> <span id="studentModalPhone"></span>
-                </p>
-                <p>
-                  <strong>Status:</strong> <span id="studentModalStatus"></span>
-                </p>
-                <div id="studentModalDetails"></div>
+              <div class="detail-item">
+                <strong>Username:</strong>
+                <span id="studentDetailsUsername"></span>
               </div>
+              <div class="detail-item">
+                <strong>Email:</strong>
+                <span id="studentDetailsEmail"></span>
+              </div>
+              <div class="detail-item">
+                <strong>Phone:</strong>
+                <span id="studentDetailsPhone"></span>
+              </div>
+              <div class="detail-item">
+                <strong>Address:</strong>
+                <span id="studentDetailsAddress"></span>
+              </div>
+              <div class="detail-item">
+                <strong>University:</strong>
+                <span id="studentDetailsUniversity"></span>
+              </div>
+              <div class="detail-item">
+                <strong>College:</strong>
+                <span id="studentDetailsCollege"></span>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-danger" id="deleteStudentBtn">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+              <button class="btn" onclick="closeModal()">Close</button>
             </div>
           </div>
         </div>
 
-        <!-- Add Student Modal -->
-        <section id="addStudentModal" class="modal">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2>Add New Student</h2>
-              <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <form id="addStudentForm">
-                <div class="form-group">
-                  <label for="studentName">Name</label>
-                  <input type="text" id="studentName" name="name" required />
-                </div>
-                <div class="form-group">
-                  <label for="studentEmail">Email</label>
-                  <input type="email" id="studentEmail" name="email" required />
-                </div>
-                <div class="form-group">
-                  <label for="studentPhone">Phone</label>
-                  <input type="tel" id="studentPhone" name="phone" />
-                </div>
-                <div class="form-group">
-                  <label for="studentStatus">Status</label>
-                  <select id="studentStatus" name="status">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary">
-                  Save Student
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
-
+        <!-- Bookings Management Section -->
         <section id="bookings" class="content-section">
           <div class="header">
             <div class="page-title">
