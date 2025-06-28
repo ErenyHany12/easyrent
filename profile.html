@@ -444,15 +444,20 @@
       }
 
       // Load student bookings
+      // Load student bookings with proper endpoint and error handling
       async function loadStudentBookings() {
         if (!checkAuth()) return;
 
         const token = localStorage.getItem("authToken");
         const container = document.getElementById("bookingsContainer");
+        const studentId = localStorage.getItem("userId"); // Assuming you store user ID
 
         try {
+          container.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري تحميل الحجوزات...`;
+
+          // First try the correct endpoint
           const response = await fetch(
-            "https://easyrentapi0.runasp.net/api/Booking/GetStudentBookings",
+            "https://easyrentapi0.runasp.net/api/Booking/GetAllBookings",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -462,74 +467,97 @@
           );
 
           if (!response.ok) {
-            throw new Error("Failed to load bookings");
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          const data = await response.json();
-          const bookings = data.$values || [];
+          const allBookings = await response.json();
 
-          if (bookings.length === 0) {
+          // Filter bookings for current student
+          const studentBookings = allBookings.filter(
+            (booking) =>
+              booking.studentId && booking.studentId.toString() === studentId
+          );
+
+          if (studentBookings.length === 0) {
             container.innerHTML = `
-                        <div class="no-bookings">
-                            <i class="fas fa-calendar-times" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
-                            <p>لا توجد حجوزات حالياً</p>
-                        </div>
-                    `;
+        <div class="no-bookings">
+          <i class="fas fa-calendar-times"></i>
+          <p>لا توجد حجوزات حالياً</p>
+          <small>يمكنك استعراض الغرف المتاحة وحجز ما يناسبك</small>
+        </div>
+      `;
             return;
           }
 
-          container.innerHTML = bookings
+          // Display the bookings
+          container.innerHTML = studentBookings
             .map(
               (booking) => `
-                    <div class="booking-item">
-                        <div class="booking-header">
-                            <div class="booking-title">${
-                              booking.unitTitle || "غرفة طالب"
-                            }</div>
-                            <div class="booking-status ${
-                              booking.status === "Active"
-                                ? "status-active"
-                                : "status-completed"
-                            }">
-                                ${booking.status === "Active" ? "نشط" : "مكتمل"}
-                            </div>
-                        </div>
-                        <div class="booking-details">
-                            <div>
-                                <strong>تاريخ الحجز:</strong> ${new Date(
-                                  booking.bookingDate
-                                ).toLocaleDateString("ar-EG")}
-                            </div>
-                            <div>
-                                <strong>تاريخ الدخول:</strong> ${new Date(
-                                  booking.moveInDate
-                                ).toLocaleDateString("ar-EG")}
-                            </div>
-                            <div>
-                                <strong>المدة:</strong> ${
-                                  booking.duration || "عام دراسي"
-                                }
-                            </div>
-                            <div>
-                                <strong>السعر:</strong> ${
-                                  booking.totalPrice || 0
-                                } جنيه مصري
-                            </div>
-                        </div>
-                    </div>
-                `
+      <div class="booking-item">
+        <div class="booking-header">
+          <div class="booking-title">حجز رقم ${
+            booking.bookingId || "غير معروف"
+          }</div>
+          <div class="booking-status ${
+            booking.status === "Active" ? "status-active" : "status-completed"
+          }">
+            ${booking.status === "Active" ? "نشط" : "مكتمل"}
+          </div>
+        </div>
+        <div class="booking-details">
+          ${
+            booking.unitId
+              ? `<div><strong>رقم الوحدة:</strong> ${booking.unitId}</div>`
+              : ""
+          }
+          ${
+            booking.startDate
+              ? `<div><strong>تاريخ البداية:</strong> ${formatDate(
+                  booking.startDate
+                )}</div>`
+              : ""
+          }
+          ${
+            booking.endDate
+              ? `<div><strong>تاريخ النهاية:</strong> ${formatDate(
+                  booking.endDate
+                )}</div>`
+              : ""
+          }
+          ${
+            booking.duration
+              ? `<div><strong>المدة:</strong> ${booking.duration}</div>`
+              : ""
+          }
+          ${
+            booking.totalPrice
+              ? `<div><strong>السعر:</strong> ${booking.totalPrice} جنيه</div>`
+              : ""
+          }
+        </div>
+      </div>
+    `
             )
             .join("");
         } catch (error) {
           console.error("Error loading bookings:", error);
           container.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        coming soon..
-                    </div>
-                `;
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        لا يمكن تحميل الحجوزات حالياً
+        <br><small>${
+          error.message || "يرجى المحاولة لاحقاً أو التواصل مع الدعم الفني"
+        }</small>
+      </div>
+    `;
         }
       }
+
+      // Make sure to call this when the page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        loadStudentProfile();
+        loadStudentBookings();
+      });
 
       // Logout function
       function logout() {
