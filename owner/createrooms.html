@@ -619,7 +619,7 @@
               <div class="form-error">Valid email is required</div>
             </div>
 
-            <button type="submit" class="submit-btn">
+            <button type="submit" class="submit-btn" onclick="submitProperty()">
               <i class="fas fa-paper-plane"></i> Submit Property
             </button>
           </div>
@@ -919,7 +919,7 @@
           showToast("✅ تم إضافة الوحدة بنجاح", "success");
 
           setTimeout(() => {
-            window.location.href = "myproparty.html";
+            window.location.href = "myproperty.html";
           }, 2000);
         } catch (error) {
           console.error("خطأ في الإرسال:", error);

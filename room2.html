@@ -37,6 +37,7 @@
         padding: 2rem 0;
         margin-bottom: 2rem;
         box-shadow: var(--box-shadow);
+        position: relative;
       }
 
       .logo-container {
@@ -539,6 +540,26 @@
           padding: 0.5rem 0.8rem;
           font-size: 0.85rem;
         }
+
+        .profile-icon,
+        .back-home-icon {
+          width: 40px;
+          height: 40px;
+          top: 0.8rem;
+        }
+
+        .profile-icon {
+          right: 1rem;
+        }
+
+        .back-home-icon {
+          left: 1rem;
+        }
+
+        .profile-icon i,
+        .back-home-icon i {
+          font-size: 1.2rem;
+        }
       }
 
       .room-gallery {
@@ -782,6 +803,58 @@
         color: #034fc1;
         margin-right: 5px;
       }
+
+      .profile-icon {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        color: white;
+      }
+
+      .profile-icon:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .profile-icon i {
+        font-size: 1.5rem;
+      }
+
+      .back-home-icon {
+        position: absolute;
+        top: 1rem;
+        left: 2rem;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        text-decoration: none;
+        color: white;
+      }
+
+      .back-home-icon:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .back-home-icon i {
+        font-size: 1.5rem;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -791,13 +864,22 @@
   <body>
     <header>
       <div class="container">
+        <a href="index.html" class="back-home-icon">
+          <i class="fas fa-home"></i>
+        </a>
         <div class="logo-container">
+          <a href="javascript:history.back()" class="back-button">
+            <i class="ri-arrow-left-line"></i>
+          </a>
           <h1 class="logo">
             <i class="fas fa-house-chimney"></i>
             Easy Rent Properties
           </h1>
           <p>Find your perfect room in Easy Rent</p>
         </div>
+        <a href="profile.html" class="profile-icon">
+          <i class="fas fa-user"></i>
+        </a>
       </div>
     </header>
 

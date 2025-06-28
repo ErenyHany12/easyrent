@@ -266,7 +266,7 @@ async function handleStudentSubmit(e) {
     showLoading(true, "studentForm");
     const result = await registerStudent(studentData);
     showSuccess(result.message || "Registration successful!");
-    setTimeout(() => (window.location.href = "/login"), 1500);
+    setTimeout(() => (window.location.href = "/login.html"), 1500);
   } catch (error) {
     let errorMessage = error.message;
     if (errorMessage.includes("Email") || errorMessage.includes("Password")) {
@@ -332,7 +332,7 @@ async function handleOwnerSubmit(e) {
     showLoading(true, "ownerForm");
     const result = await registerOwner(ownerData);
     showSuccess(result.message || "Registration successful!");
-    setTimeout(() => (window.location.href = "../owner/loginowner.html"), 1500);
+    setTimeout(() => (window.location.href = "../login.html"), 1500);
   } catch (error) {
     let errorMessage = error.message;
     if (errorMessage.includes("Email") || errorMessage.includes("Password")) {
