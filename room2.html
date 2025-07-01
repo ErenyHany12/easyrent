@@ -682,6 +682,57 @@
         color: #333;
         line-height: 1.5;
       }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 24px;
+        border-radius: 4px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        opacity: 0;
+        animation: fadeIn 0.3s forwards;
+      }
+
+      .toast.fade-out {
+        animation: fadeOut 0.5s forwards;
+      }
+
+      .toast-info {
+        background-color: #3498db;
+      }
+
+      .toast-success {
+        background-color: #2ecc71;
+      }
+
+      .toast-error {
+        background-color: #e74c3c;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          bottom: 0;
+        }
+        to {
+          opacity: 1;
+          bottom: 20px;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          bottom: 20px;
+        }
+        to {
+          opacity: 0;
+          bottom: 0;
+        }
+      }
 
       @media (max-width: 768px) {
         .feedback-section {
@@ -931,7 +982,6 @@
       <div id="rooms-container" class="rooms-container"></div>
 
       <!-- Add this before closing body tag -->
-      <script defer type="module" src="./js/rooms2.js"></script>
     </div>
 
     <!-- Room Details Modal -->
@@ -1058,12 +1108,11 @@
           <label for="moveInDate">Move-in Date</label>
           <input type="date" id="moveInDate" name="moveInDate" required />
 
-          <label for="duration">Duration</label>
-          <select id="duration" name="duration" required>
-            <option value="academic_year">Academic Year</option>
-            <option value="two_semesters">Two Semesters</option>
-            <option value="one_semester">One Semester</option>
-          </select>
+          <label for="startDate">Start Date</label>
+          <input type="date" id="startDate" name="startDate" required />
+
+          <label for="endDate">End Date</label>
+          <input type="date" id="endDate" name="endDate" required />
 
           <label for="specialRequests">Special Requests</label>
           <textarea

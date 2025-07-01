@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // API Configuration
   const API_BASE_URL = "https://easyrentapi0.runasp.net/api";
 
-  // DOM Elements
   const loginForm = document.getElementById("loginForm");
   const emailPhoneInput = document.getElementById("phone");
   const passwordInput = document.getElementById("password");
@@ -10,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const submitBtn = document.querySelector("button[type='submit']");
   const successMessage = document.getElementById("successMessage");
 
-  // Create error display element if not exists
+  // Create error display
   let errorDiv = document.querySelector(".error-message");
   if (!errorDiv) {
     errorDiv = document.createElement("div");
@@ -18,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loginForm.insertBefore(errorDiv, loginForm.firstChild);
   }
 
-  // Password visibility toggle
+  // Show/hide password
   togglePasswordBtn.addEventListener("click", function (e) {
     e.preventDefault();
     const type = passwordInput.type === "password" ? "text" : "password";
@@ -26,13 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
     togglePasswordBtn.textContent = type === "password" ? "Show" : "Hide";
   });
 
-  // Form submission handler
+  // Handle login
   loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     errorDiv.style.display = "none";
     successMessage.style.display = "none";
 
-    // Get form values
     const userType = document.querySelector(
       'input[name="userType"]:checked'
     ).value;
@@ -41,13 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
       password: passwordInput.value,
     };
 
-    // Validate inputs
     if (!credentials.emailOrPhone || !credentials.password) {
       showError("Please fill in all fields");
       return;
     }
 
-    // Prepare for API call
     submitBtn.disabled = true;
     submitBtn.innerHTML =
       '<i class="fas fa-spinner fa-spin"></i> Signing in...';
@@ -55,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       let endpoint, redirectUrl;
 
-      // Determine endpoint and redirect based on user type
       switch (userType) {
         case "owner":
           endpoint = "/Owner/login";
@@ -86,22 +80,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const errorData = await response.json().catch(() => ({}));
         let errorMessage =
           errorData.message || "Login failed. Please check your credentials.";
-
         if (response.status === 401) {
           errorMessage = `Invalid ${userType} credentials`;
         }
-
         throw new Error(errorMessage);
       }
 
       const data = await response.json();
+      console.log("Login response:", data);
 
-      // Store authentication data
       localStorage.setItem("authToken", data.token || data.accessToken);
       localStorage.setItem("userType", userType);
       localStorage.setItem("userData", JSON.stringify(data.user || data));
 
-      // Store owner-specific data if available
+      // ✅ Student-specific data
+      if (userType === "student") {
+        localStorage.setItem("studentId", data.id || data.studentId);
+        localStorage.setItem(
+          "studentName",
+          data.fullName || data.name || "Student"
+        );
+      }
+
+      // ✅ Owner-specific data
       if (userType === "owner" && data.ownerId) {
         localStorage.setItem("ownerId", data.ownerId);
         if (data.ownerName) {
@@ -109,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      // Show success and redirect
       successMessage.style.display = "flex";
       setTimeout(() => {
         window.location.href = redirectUrl;
@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Helper function to show error messages
   function showError(message) {
     errorDiv.textContent = message;
     errorDiv.style.display = "block";
@@ -132,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 5000);
   }
 
-  // User type selection styling
   document.querySelectorAll('input[name="userType"]').forEach((radio) => {
     radio.addEventListener("change", function () {
       document.querySelectorAll(".user-type-option").forEach((option) => {
@@ -145,9 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Notification system (can be used throughout the app)
+// 🔔 Optional global notification
 function showNotification(message, isSuccess = true) {
-  // Create notification element if it doesn't exist
   let notification = document.getElementById("notification");
   if (!notification) {
     notification = document.createElement("div");
@@ -160,7 +157,6 @@ function showNotification(message, isSuccess = true) {
     `;
     document.body.appendChild(notification);
 
-    // Add styles
     const style = document.createElement("style");
     style.textContent = `
       #notification {
@@ -193,7 +189,6 @@ function showNotification(message, isSuccess = true) {
     document.head.appendChild(style);
   }
 
-  // Set message and style
   const messageEl = document.getElementById("notification-message");
   const icon = notification.querySelector("i");
 
@@ -203,13 +198,11 @@ function showNotification(message, isSuccess = true) {
     isSuccess ? "fa-check-circle" : "fa-exclamation-circle"
   }`;
 
-  // Show notification
   notification.style.display = "flex";
   setTimeout(() => {
     notification.classList.add("show");
   }, 10);
 
-  // Hide after 5 seconds
   setTimeout(() => {
     notification.classList.remove("show");
     setTimeout(() => {
