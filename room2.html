@@ -906,6 +906,47 @@
       .back-home-icon i {
         font-size: 1.5rem;
       }
+      .toast {
+        visibility: hidden;
+        min-width: 200px;
+        max-width: 400px;
+        padding: 12px 20px;
+        border-radius: 12px;
+        color: white;
+        font-size: 16px;
+        position: fixed;
+        z-index: 9999;
+        right: 30px;
+        bottom: 30px;
+        opacity: 0;
+        transition: opacity 0.5s ease, bottom 0.5s ease;
+      }
+
+      .toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 50px;
+      }
+
+      /* ألوان حسب النوع */
+      .toast.success {
+        background-color: #4caf50; /* أخضر */
+      }
+
+      .toast.error {
+        background-color: #f44336; /* أحمر */
+      }
+
+      .toast.warning {
+        background-color: #ff9800; /* برتقالي */
+      }
+
+      .toast.info {
+        background-color: #2196f3; /* أزرق */
+      }
+      .toast i {
+        margin-right: 8px;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -933,6 +974,7 @@
         </a>
       </div>
     </header>
+    <div id="toast" class="toast"></div>
 
     <div class="container">
       <section class="search-section">

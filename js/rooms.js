@@ -1,18 +1,19 @@
-import { _get, _post } from "./apiClint.js";
+import { _get, _post, _delete } from "./apiClint.js";
 
-// Global state
+// الحالة العامة
 let selectedRating = 3;
 let currentRoomId = null;
 let allBookings = [];
 let allRooms = [];
 
-/** Helper Functions **/
+// تحويل التقييم لنجوم
 function getRatingStars(rating) {
   const map = { VeryBad: 1, Bad: 2, Good: 3, VeryGood: 4, Excellent: 5 };
   const count = map[rating] || 0;
   return "★".repeat(count) + "☆".repeat(5 - count);
 }
 
+// تنسيق التاريخ
 function formatDate(dateStr) {
   if (!dateStr) return "";
   return new Date(dateStr).toLocaleDateString("ar-EG", {
@@ -22,6 +23,7 @@ function formatDate(dateStr) {
   });
 }
 
+// تحديد النجوم المختارة
 function updateStarSelection(rating) {
   document.querySelectorAll(".stars .star").forEach((star) => {
     star.classList.toggle("active", Number(star.dataset.value) <= rating);
@@ -32,6 +34,7 @@ function parseId(id) {
   return typeof id === "number" ? id : parseInt(id, 10) || null;
 }
 
+// تحقق إذا الغرفة محجوزة حاليًا
 function isRoomBooked(room) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -39,29 +42,21 @@ function isRoomBooked(room) {
     if (b.unitTitle !== room.title) return false;
     if (b.isUnitAvailable === false) {
       const start = new Date(b.startDate);
-      start.setHours(0, 0, 0, 0);
       const end = new Date(b.endDate);
-      end.setHours(23, 59, 59, 999);
       return start <= today && today <= end;
     }
     return false;
   });
 }
 
-/** Feedback **/
+// إرسال تقييم
 window.submitFeedback = async function (e) {
   e.preventDefault();
   const comment = document.getElementById("commentInput").value.trim();
-  if (!comment) {
-    alert("من فضلك اكتب تعليقك أولاً");
-    return;
-  }
-
   const studentId = Number(localStorage.getItem("studentId"));
-  if (!studentId) {
-    alert("يجب تسجيل الدخول لإرسال تقييم.");
-    return;
-  }
+
+  if (!comment) return alert("من فضلك اكتب تعليقك أولاً");
+  if (!studentId) return alert("يجب تسجيل الدخول لإرسال تقييم.");
 
   try {
     await _post("/api/Feedback", {
@@ -76,21 +71,24 @@ window.submitFeedback = async function (e) {
       studentId,
       unitId: currentRoomId,
     });
-    alert("شكراً لك! تم إرسال تقييمك بنجاح");
+
+    alert("✅ تم إرسال تقييمك");
     document.getElementById("commentInput").value = "";
     selectedRating = 3;
     updateStarSelection(3);
     await displayFeedback(currentRoomId);
   } catch (err) {
     console.error(err);
-    alert("حدث خطأ أثناء إرسال التقييم");
+    alert("❌ حدث خطأ أثناء إرسال التقييم");
   }
 };
 
+// عرض التقييمات
 async function displayFeedback(roomId) {
   try {
     const res = await _get(`/api/Feedback/GetByUnitId/${roomId}`);
     const list = res.$values || [];
+
     const html = `
       <h3>التقييمات (${list.length})</h3>
       <div class="feedback-list">
@@ -110,17 +108,18 @@ async function displayFeedback(roomId) {
           `
                 )
                 .join("")
-            : '<p class="no-feedback">لا توجد تقييمات بعد. كن أول من يقيم!</p>'
+            : '<p class="no-feedback">لا توجد تقييمات بعد</p>'
         }
       </div>
     `;
+
     document.getElementById("feedbackContainer").innerHTML = html;
   } catch (err) {
     console.error(err);
   }
 }
 
-/** Room Details & Gallery **/
+// عرض تفاصيل الغرفة
 window.viewRoomDetails = async function (roomId) {
   currentRoomId = roomId;
   const room = allRooms.find((r) => parseId(r.id) === parseId(roomId));
@@ -137,11 +136,8 @@ window.viewRoomDetails = async function (roomId) {
   const gallery = document.querySelector(".room-gallery");
   gallery.innerHTML = photos
     .map(
-      (p) => `
-    <img class="gallery-img"
-         src="https://easyrentapi0.runasp.net/${p}"
-         onerror="this.onerror=null;this.src='images/default-room.jpg'">
-  `
+      (p) =>
+        `<img class="gallery-img" src="https://easyrentapi0.runasp.net/${p}" onerror="this.onerror=null;this.src='images/default-room.jpg'">`
     )
     .join("");
 
@@ -155,6 +151,7 @@ window.viewRoomDetails = async function (roomId) {
   document.getElementById("roomDetailsModal").style.display = "flex";
 };
 
+// فتح نافذة الحجز
 window.openBookingModal = function (roomId) {
   const room = allRooms.find((r) => parseId(r.id) === parseId(roomId));
   if (!room) return;
@@ -184,33 +181,75 @@ window.closeModal = (id) => {
   document.getElementById(id).style.display = "none";
 };
 
-/** Refresh & Status **/
+// تحديث الحجوزات
 async function refreshBookings() {
   try {
     const res = await _get("/api/Booking/GetAllBookings");
     allBookings = res.$values || [];
+
+    console.log("📝 All bookings:");
+    console.log(allBookings);
+
     updateRoomStatuses();
   } catch (err) {
     console.error(err);
   }
 }
 
+// تحديث حالة الغرف
 function updateRoomStatuses() {
+  const studentId = Number(localStorage.getItem("studentId"));
+
   allRooms.forEach((room) => {
     const el = document.querySelector(`.room-card[data-id="${room.id}"]`);
     if (!el) return;
+
     const booked = isRoomBooked(room);
     const statusEl = el.querySelector(".booking-status");
-    const btn = el.querySelector(".btn-book");
+    const btnArea = el.querySelector(".room-actions");
+    btnArea.innerHTML = "";
+
     statusEl.className = `booking-status ${booked ? "booked" : "available"}`;
     statusEl.textContent = booked ? "محجوز" : "متاح";
-    btn.disabled = booked;
-    btn.textContent = booked ? "محجوز" : "احجز الآن";
-    if (!booked) btn.onclick = () => openBookingModal(room.id);
+
+    const booking = allBookings.find(
+      (b) =>
+        b.unitTitle === room.title &&
+        b.isUnitAvailable === false &&
+        b.studentId === studentId
+    );
+
+    if (booking) {
+      btnArea.innerHTML = `
+        <button class="btn-cancel" onclick="cancelBooking(${booking.id})">إلغاء الحجز</button>
+        <button class="btn-view" onclick="viewRoomDetails(${room.id})">تفاصيل</button>
+      `;
+    } else if (!booked) {
+      btnArea.innerHTML = `
+        <button class="btn-book" onclick="openBookingModal(${room.id})">احجز الآن</button>
+        <button class="btn-view" onclick="viewRoomDetails(${room.id})">تفاصيل</button>
+      `;
+    } else {
+      btnArea.innerHTML = `
+        <button class="btn-view" onclick="viewRoomDetails(${room.id})">تفاصيل</button>
+      `;
+    }
   });
 }
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
 
-/** Init on DOMContentLoaded **/
+  // إظهار التوست
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.classList.add("hidden");
+  }, 3000); // 3 ثواني
+}
+// إظهار التوست
+window.showToast = showToast;
+// تحميل الغرف عند تشغيل الصفحة
 document.addEventListener("DOMContentLoaded", async () => {
   const roomsContainer = document.getElementById("rooms-container");
   roomsContainer.innerHTML = `<div class="loading">جاري تحميل الغرف...</div>`;
@@ -238,43 +277,32 @@ document.addEventListener("DOMContentLoaded", async () => {
           : "images/default-room.jpg";
         return `
           <div class="room-card" data-id="${room.id}">
-            <img class="room-image" src="${img}"
-                 onerror="this.onerror=null;this.src='images/default-room.jpg'">
+            <img class="room-image" src="${img}" onerror="this.onerror=null;this.src='images/default-room.jpg'">
             <div class="room-details">
               <h3 class="room-title">${room.title}</h3>
-              <p class="room-location">
-                <i class="fas fa-map-marker-alt"></i> ${
-                  room.address || "لا يوجد عنوان"
-                }
-              </p>
+              <p class="room-location"><i class="fas fa-map-marker-alt"></i> ${
+                room.address || "لا يوجد عنوان"
+              }</p>
               <p class="room-price">${
                 room.priceForMonth || 0
               } ج.م <span class="price-period">/شهر</span></p>
-              <div class="booking-status ${booked ? "booked" : "available"}">
-                ${booked ? "محجوز" : "متاح"}
-              </div>
-              <div class="room-actions">
-                <button class="btn-book" ${booked ? "disabled" : ""}
-                        onclick="${
-                          booked ? "" : `openBookingModal(${room.id})`
-                        }">
-                  ${booked ? "محجوز" : "احجز الآن"}
-                </button>
-                <button class="btn-view" onclick="viewRoomDetails(${room.id})">
-                  تفاصيل
-                </button>
-              </div>
+              <div class="booking-status ${booked ? "booked" : "available"}">${
+          booked ? "محجوز" : "متاح"
+        }</div>
+              <div class="room-actions"></div>
             </div>
           </div>
         `;
       })
       .join("");
+
+    updateRoomStatuses();
   } catch (err) {
     console.error(err);
     roomsContainer.innerHTML = `<div class="error">حدث خطأ أثناء تحميل الغرف.</div>`;
   }
 
-  // star click handlers
+  // النجوم للتقييم
   document.querySelectorAll(".stars .star").forEach((star) => {
     star.addEventListener("click", () => {
       selectedRating = Number(star.dataset.value);
@@ -282,7 +310,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Booking form submit
+  // إرسال الحجز
   document
     .getElementById("bookingForm")
     .addEventListener("submit", async (e) => {
@@ -292,14 +320,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       const startDate = document.getElementById("startDate").value;
       const endDate = document.getElementById("endDate").value;
 
-      if (!studentId) {
-        alert("يرجى تسجيل الدخول كطالب أولاً.");
-        return;
-      }
-      if (new Date(endDate) <= new Date(startDate)) {
-        alert("تاريخ النهاية يجب أن يكون بعد تاريخ البداية.");
-        return;
-      }
+      if (!studentId) return alert("يرجى تسجيل الدخول أولاً.");
+      if (new Date(endDate) <= new Date(startDate))
+        return alert("تاريخ النهاية يجب أن يكون بعد البداية.");
 
       try {
         const payload = {
@@ -309,13 +332,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           endDate: new Date(endDate).toISOString(),
         };
         const res = await _post("/api/Booking/BookUnit", payload);
-        console.log("Booking Response:", res); // 🪵 هنا
         if (
           (typeof res === "string" && res.toLowerCase().includes("success")) ||
           res.bookingId ||
           res.$id
         ) {
-          alert("✅ تم الحجز بنجاح!");
+          showToast("✅ تم الحجز بنجاح!", "success");
           closeModal("bookingModal");
           await refreshBookings();
         } else {
@@ -323,7 +345,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       } catch (err) {
         console.error(err);
-        alert("فشل الحجز. حاول مرة أخرى.");
+        showToast("❌ فشل الحجز. حاول مرة أخرى.", "error");
       }
     });
 });
+
+// إلغاء الحجز
+window.cancelBooking = async function (bookingId) {
+  const confirmCancel = confirm("هل أنت متأكد أنك تريد إلغاء الحجز؟");
+  if (!confirmCancel) return;
+
+  try {
+    await _delete(`/api/Booking/DeleteBooking/${bookingId}`);
+    showToast("✅ تم إلغاء الحجز.");
+    await refreshBookings();
+  } catch (err) {
+    console.error(err);
+    showToast("❌ فشل الحجز. حاول مرة أخرى.", "error");
+  }
+};
